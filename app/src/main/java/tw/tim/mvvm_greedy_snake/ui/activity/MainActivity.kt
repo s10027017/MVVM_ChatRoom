@@ -30,6 +30,7 @@ import tw.tim.mvvm_greedy_snake.ui.viewmodel.MainViewModel
 // BUG 3 連點按鈕會造成多個錯誤 鎖定機制
 // BUG ?
 // 自定義toolbar 、 alertDialog
+// (MVVM) Model後臺業務邏輯、資料部分  View UI介面  ViewModel處理UI業務邏輯
 
 class MainActivity : AppCompatActivity() {
 
