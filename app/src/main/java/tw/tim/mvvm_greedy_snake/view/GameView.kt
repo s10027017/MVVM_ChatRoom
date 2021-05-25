@@ -1,4 +1,4 @@
-package tw.tim.mvvm_greedy_snake.ui
+package tw.tim.mvvm_greedy_snake.view
 
 import android.content.Context
 import android.graphics.Canvas
@@ -6,7 +6,7 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.util.AttributeSet
 import android.view.View
-import tw.tim.mvvm_greedy_snake.data.Position
+import tw.tim.mvvm_greedy_snake.model.data.Position
 
 /**
  *  畫遊戲畫面

@@ -1,4 +1,4 @@
-package tw.tim.mvvm_greedy_snake.ui.activity
+package tw.tim.mvvm_greedy_snake.view.activity
 
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -11,9 +11,10 @@ import androidx.lifecycle.ViewModelProvider
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.alert_dialog.view.*
 import tw.tim.mvvm_greedy_snake.R
-import tw.tim.mvvm_greedy_snake.enums.Direction
-import tw.tim.mvvm_greedy_snake.enums.GameState
-import tw.tim.mvvm_greedy_snake.ui.viewmodel.MainViewModel
+import tw.tim.mvvm_greedy_snake.api.SnakeScore
+import tw.tim.mvvm_greedy_snake.model.enums.Direction
+import tw.tim.mvvm_greedy_snake.model.enums.GameState
+import tw.tim.mvvm_greedy_snake.viewmodel.MainViewModel
 
 
 /**
@@ -106,6 +107,45 @@ class MainActivity : AppCompatActivity() {
             Log.e("it.toString()", it.toString())
         })
 
+        viewModel.insertLiveData.observe(this,{
+            Log.e("it.body()", it.body().toString())
+        })
+
+        viewModel.mRepositories.observe(this, {
+//            Log.e("it.code()", it.code().toString())
+//            Log.e("it.body()", it.body().toString())
+//            Log.e("it.body()?.size", it.body()?.size.toString())
+
+//            val listData = ArrayList<SnakeScore>()
+//            for (i in it.body()?.size.toString()) {
+//                it.body()?.let { it1 -> listData.addAll(it1) }
+//            }
+
+            Log.e("it", it.toString())
+            Log.e("it[0]", it[0].toString())
+            Log.e("it[1]", it[1].toString())
+
+            val listData = ArrayList<SnakeScore>()
+            for (i in it.size.toString()) {
+                listData.addAll(it)
+            }
+
+            Log.e("listData", listData.toString())
+
+            val listStringData = ArrayList<String>()
+            for (i in 0..5) {
+                listStringData.add(i.toString())
+            }
+
+
+
+//            Log.e("listData", listData.toString())
+//            Log.e("listData[0]", listData[0].toString())
+//            Log.e("listData[1]", listData[1].toString())
+            Log.e("listStringData", listStringData.toString())
+
+        })
+
         // 依照遊戲狀態更新
         viewModel.gameState.observe(this, {
             Log.e("it", it.toString())
@@ -140,6 +180,13 @@ class MainActivity : AppCompatActivity() {
 
                 v.dialog_cancel.setOnClickListener {
                     alertDialog.dismiss()
+                }
+
+                v.dialog_save.setOnClickListener {
+                    viewModel.snakeScoreInsert()
+                    Log.e("viewModel.snakeScoreInsert()", viewModel.snakeScoreInsert().toString() )
+//                    viewModel.getSnakeScore()
+//                    Log.e("viewModel.getSnakeScore()", viewModel.getSnakeScore().toString() )
                 }
 
                 // 點擊範圍外無反應

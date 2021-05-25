@@ -1,15 +1,18 @@
-package tw.tim.mvvm_greedy_snake.ui.viewmodel
+package tw.tim.mvvm_greedy_snake.viewmodel
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import tw.tim.mvvm_greedy_snake.data.Position
-import tw.tim.mvvm_greedy_snake.enums.Direction
-import tw.tim.mvvm_greedy_snake.enums.GameState
+import retrofit2.Response
+import tw.tim.mvvm_greedy_snake.api.SnakeScore
+import tw.tim.mvvm_greedy_snake.model.DataModel
+import tw.tim.mvvm_greedy_snake.model.data.Position
+import tw.tim.mvvm_greedy_snake.model.enums.Direction
+import tw.tim.mvvm_greedy_snake.model.enums.GameState
 import kotlin.concurrent.fixedRateTimer
 import kotlin.random.Random
 
-class MainViewModel : ViewModel() {
+class MainViewModel : ViewModel(), DataModel.OnDataReadyCallback{
     private val body = mutableListOf<Position>()
     private val size = 20
     private var score = 0
@@ -24,6 +27,11 @@ class MainViewModel : ViewModel() {
     var bonusPosition = MutableLiveData<Position>()
     var gameState = MutableLiveData<GameState>()
     var scoreData = MutableLiveData<Int>()
+
+    val insertLiveData: MutableLiveData<Response<SnakeScore>> = MutableLiveData()
+    val mRepositories: MutableLiveData<List<SnakeScore>> = MutableLiveData()
+    private var mDataModel: DataModel = DataModel()
+
 
     /**
      *  移動
@@ -112,10 +120,35 @@ class MainViewModel : ViewModel() {
     }
 
     /**
+     *  保存分數
+     */
+     fun snakeScoreInsert(){
+        mDataModel!!.snakeScoreInsert("test",total_score,this)
+    }
+
+    /**
+     *  取得分數
+     */
+    fun getSnakeScore(){
+        mDataModel!!.getSnakeScore(this)
+    }
+
+    /**
      *  隨機給下個紅點
      */
     private fun nextBonus() : Position {
         return Position(Random.nextInt(size), Random.nextInt(size))
+    }
+
+    override fun onListData(data: List<SnakeScore>?) {
+//        mRepositories.value = data
+        mRepositories.postValue(data)
+        Log.e("data",data.toString())
+        Log.e("mRepositories",mRepositories.toString())
+    }
+
+    override fun onData(data: Response<SnakeScore>?) {
+        insertLiveData.postValue(data)
     }
 
 }

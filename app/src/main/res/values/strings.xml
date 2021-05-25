@@ -9,5 +9,6 @@
     <string name="game_state">Game State</string>
     <string name="game_over">Game OVER</string>
     <string name="cancel">CANCEL</string>
+    <string name="save">SAVE</string>
     <string name="total_score">Total Score:</string>
 </resources>
