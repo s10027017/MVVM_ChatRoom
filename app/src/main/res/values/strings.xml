@@ -17,4 +17,6 @@
     <string name="start_game">START GAME</string>
     <string name="name_cannot_be_empty">Name cannot be empty</string>
     <string name="record_success">Record success</string>
+
+    <string name="leaderboard">Leaderboard</string>
 </resources>

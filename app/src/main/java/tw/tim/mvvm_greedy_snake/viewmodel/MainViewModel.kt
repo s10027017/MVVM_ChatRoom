@@ -30,7 +30,7 @@ class MainViewModel : ViewModel(), DataModel.OnDataReadyCallback{
     var scoreData = MutableLiveData<Int>()
 
     val insertLiveData: MutableLiveData<Response<SnakeScore>> = MutableLiveData()
-    val getAllLiveData: MutableLiveData<List<SnakeScore>> = MutableLiveData()
+    val getRankLiveData: MutableLiveData<List<SnakeScore>> = MutableLiveData()
     private var mDataModel: DataModel = DataModel()
 
 
@@ -130,7 +130,7 @@ class MainViewModel : ViewModel(), DataModel.OnDataReadyCallback{
     /**
      *  取得分數
      */
-    fun getSnakeScore(){
+    fun getRankData(){
         mDataModel!!.getSnakeScore(this)
     }
 
@@ -142,10 +142,10 @@ class MainViewModel : ViewModel(), DataModel.OnDataReadyCallback{
     }
 
     override fun onListData(data: List<SnakeScore>?) {
-//        getAllLiveData.value = data
-        getAllLiveData.postValue(data)
+//        getRankLiveData.value = data
+        getRankLiveData.postValue(data)
 //        Log.e("data",data.toString())
-//        Log.e("getAllLiveData",getAllLiveData.toString())
+//        Log.e("getRankLiveData",getRankLiveData.toString())
     }
 
     override fun onData(data: Response<SnakeScore>?) {

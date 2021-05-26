@@ -1,5 +1,6 @@
 package tw.tim.mvvm_greedy_snake.view.activity
 
+import android.content.Intent
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.Log
@@ -119,12 +120,12 @@ class MainActivity : AppCompatActivity() {
 
         })
 
-        // 抓取全部分數表
-        viewModel.getAllLiveData.observe(this, {
-            Log.e("getRankData",it.toString())
-            Log.e("getRankData[0]",it[0].toString())
-            Log.e("getRankData[1]",it[1].toString())
-        })
+        // 抓取全部分數表  移至RankActivity
+//        viewModel.getAllLiveData.observe(this, {
+//            Log.e("getRankData",it.toString())
+//            Log.e("getRankData[0]",it[0].toString())
+//            Log.e("getRankData[1]",it[1].toString())
+//        })
 
         // 依照遊戲狀態更新
         viewModel.gameState.observe(this, {
@@ -170,7 +171,9 @@ class MainActivity : AppCompatActivity() {
 
                 // Rank排行榜
                 v.dialog_get.setOnClickListener {
-                    viewModel.getSnakeScore()
+//                    viewModel.getSnakeScore()
+                    val intent = Intent(this, RankActivity().javaClass)
+                    startActivity(intent)
                 }
 
                 // 點擊範圍外無反應
