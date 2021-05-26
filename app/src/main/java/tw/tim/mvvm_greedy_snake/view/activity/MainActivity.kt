@@ -5,13 +5,16 @@ import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.alert_dialog.view.*
+import kotlinx.android.synthetic.main.alert_dialog.view.dialog_start
+import kotlinx.android.synthetic.main.start_dialog.view.*
 import tw.tim.mvvm_greedy_snake.R
-import tw.tim.mvvm_greedy_snake.api.SnakeScore
+import tw.tim.mvvm_greedy_snake.model.data.SnakeScore
 import tw.tim.mvvm_greedy_snake.model.enums.Direction
 import tw.tim.mvvm_greedy_snake.model.enums.GameState
 import tw.tim.mvvm_greedy_snake.viewmodel.MainViewModel
@@ -48,6 +51,7 @@ class MainActivity : AppCompatActivity() {
 
         initActionBar()
         initUniObserve()
+        initStartGame()
         initButtons()
     }
 
@@ -104,51 +108,27 @@ class MainActivity : AppCompatActivity() {
         // 更新遊戲分數
         viewModel.scoreData.observe(this, {
             score.text = it.toString()
-            Log.e("it.toString()", it.toString())
         })
 
-        viewModel.insertLiveData.observe(this,{
+        // 寫入分數
+        viewModel.insertLiveData.observe(this, {
             Log.e("it.body()", it.body().toString())
+            if(it.body()?.getState() == true){
+                Toast.makeText(this, getString(R.string.record_success), Toast.LENGTH_SHORT).show()
+            }
+
         })
 
-        viewModel.mRepositories.observe(this, {
-//            Log.e("it.code()", it.code().toString())
-//            Log.e("it.body()", it.body().toString())
-//            Log.e("it.body()?.size", it.body()?.size.toString())
-
-//            val listData = ArrayList<SnakeScore>()
-//            for (i in it.body()?.size.toString()) {
-//                it.body()?.let { it1 -> listData.addAll(it1) }
-//            }
-
-            Log.e("it", it.toString())
-            Log.e("it[0]", it[0].toString())
-            Log.e("it[1]", it[1].toString())
-
-            val listData = ArrayList<SnakeScore>()
-            for (i in it.size.toString()) {
-                listData.addAll(it)
-            }
-
-            Log.e("listData", listData.toString())
-
-            val listStringData = ArrayList<String>()
-            for (i in 0..5) {
-                listStringData.add(i.toString())
-            }
-
-
-
-//            Log.e("listData", listData.toString())
-//            Log.e("listData[0]", listData[0].toString())
-//            Log.e("listData[1]", listData[1].toString())
-            Log.e("listStringData", listStringData.toString())
-
+        // 抓取全部分數表
+        viewModel.getAllLiveData.observe(this, {
+            Log.e("getRankData",it.toString())
+            Log.e("getRankData[0]",it[0].toString())
+            Log.e("getRankData[1]",it[1].toString())
         })
 
         // 依照遊戲狀態更新
         viewModel.gameState.observe(this, {
-            Log.e("it", it.toString())
+//            Log.e("it", it.toString())
             if (it == GameState.GAME_OVER) {
                 // 原生AlertDialog
 //                AlertDialog.Builder(this)
@@ -173,20 +153,24 @@ class MainActivity : AppCompatActivity() {
 
                 // 一定要透過View 抓取AlertDialog上的元件 才能執行動作
                 v.score.text = getString(R.string.total_score) + viewModel.total_score
-                v.dialog_replay.setOnClickListener {
+                v.dialog_start.setOnClickListener {
                     viewModel.start()
                     alertDialog.dismiss()
                 }
 
+                // 取消
                 v.dialog_cancel.setOnClickListener {
                     alertDialog.dismiss()
                 }
 
+                // 儲存紀錄
                 v.dialog_save.setOnClickListener {
                     viewModel.snakeScoreInsert()
-                    Log.e("viewModel.snakeScoreInsert()", viewModel.snakeScoreInsert().toString() )
-//                    viewModel.getSnakeScore()
-//                    Log.e("viewModel.getSnakeScore()", viewModel.getSnakeScore().toString() )
+                }
+
+                // Rank排行榜
+                v.dialog_get.setOnClickListener {
+                    viewModel.getSnakeScore()
                 }
 
                 // 點擊範圍外無反應
@@ -202,8 +186,38 @@ class MainActivity : AppCompatActivity() {
         })
 
         // 遊戲開始
-        viewModel.start()
+//        viewModel.start()
 
+    }
+
+    // 開始遊戲
+    private fun initStartGame() {
+        // 自定義AlertDialog  也可以專寫一個class 繼承自定義AlertDialog 改寫然後處理他
+        val alertDialog: AlertDialog = AlertDialog.Builder(this).create()
+        //取得自訂的版面。
+        val inflater = LayoutInflater.from(this@MainActivity)
+        val v: View = inflater.inflate(R.layout.start_dialog, null)
+        // 設置view
+        alertDialog.setView(v)
+
+        v.dialog_start.setOnClickListener {
+            val name = v.dialog_et_name.text.toString()
+            if(name.equals("")){
+                Toast.makeText(this, getString(R.string.name_cannot_be_empty), Toast.LENGTH_SHORT).show()
+            }
+            viewModel.name = name
+            viewModel.start()
+            alertDialog.dismiss()
+        }
+
+        // 點擊範圍外無反應
+        alertDialog.setCancelable(false)
+
+        alertDialog.show()
+
+        // AlertDialog 用有設定好圓角的xml 顯示會無法顯示
+        // https://stackoverflow.com/questions/16861310/android-dialog-rounded-corners-and-transparency
+        alertDialog.window?.setBackgroundDrawableResource(R.color.transparent)
     }
 
     /**

@@ -4,7 +4,7 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import retrofit2.Response
-import tw.tim.mvvm_greedy_snake.api.SnakeScore
+import tw.tim.mvvm_greedy_snake.model.data.SnakeScore
 import tw.tim.mvvm_greedy_snake.model.DataModel
 import tw.tim.mvvm_greedy_snake.model.data.Position
 import tw.tim.mvvm_greedy_snake.model.enums.Direction
@@ -15,6 +15,7 @@ import kotlin.random.Random
 class MainViewModel : ViewModel(), DataModel.OnDataReadyCallback{
     private val body = mutableListOf<Position>()
     private val size = 20
+    var name = ""
     private var score = 0
     private var bonus : Position? = null
     private var direction = Direction.LEFT
@@ -29,7 +30,7 @@ class MainViewModel : ViewModel(), DataModel.OnDataReadyCallback{
     var scoreData = MutableLiveData<Int>()
 
     val insertLiveData: MutableLiveData<Response<SnakeScore>> = MutableLiveData()
-    val mRepositories: MutableLiveData<List<SnakeScore>> = MutableLiveData()
+    val getAllLiveData: MutableLiveData<List<SnakeScore>> = MutableLiveData()
     private var mDataModel: DataModel = DataModel()
 
 
@@ -66,8 +67,8 @@ class MainViewModel : ViewModel(), DataModel.OnDataReadyCallback{
                         Direction.UP -> y--
                         Direction.DOWN -> y++
                     }
-                    Log.e("x",x.toString() )
-                    Log.e("y",y.toString() )
+//                    Log.e("x",x.toString() )
+//                    Log.e("y",y.toString() )
                     // 左上座標為(0,0)
                     // 判斷吃到自己 & 超出範圍 遊戲結束
                     // x,y 大於等於20, x,y 小於0
@@ -87,7 +88,7 @@ class MainViewModel : ViewModel(), DataModel.OnDataReadyCallback{
                         bonusPosition.postValue(it)
                     }
                     score ++
-                    Log.e("score",score.toString())
+//                    Log.e("score",score.toString())
                     scoreData.postValue(score)
                     total_score = score
                 }
@@ -123,7 +124,7 @@ class MainViewModel : ViewModel(), DataModel.OnDataReadyCallback{
      *  保存分數
      */
      fun snakeScoreInsert(){
-        mDataModel!!.snakeScoreInsert("test",total_score,this)
+        mDataModel!!.snakeScoreInsert(name, total_score,this)
     }
 
     /**
@@ -141,10 +142,10 @@ class MainViewModel : ViewModel(), DataModel.OnDataReadyCallback{
     }
 
     override fun onListData(data: List<SnakeScore>?) {
-//        mRepositories.value = data
-        mRepositories.postValue(data)
-        Log.e("data",data.toString())
-        Log.e("mRepositories",mRepositories.toString())
+//        getAllLiveData.value = data
+        getAllLiveData.postValue(data)
+//        Log.e("data",data.toString())
+//        Log.e("getAllLiveData",getAllLiveData.toString())
     }
 
     override fun onData(data: Response<SnakeScore>?) {

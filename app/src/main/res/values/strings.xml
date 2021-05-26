@@ -10,5 +10,11 @@
     <string name="game_over">Game OVER</string>
     <string name="cancel">CANCEL</string>
     <string name="save">SAVE</string>
+    <string name="rank">RANK</string>
     <string name="total_score">Total Score:</string>
+    <string name="hint_name">Name</string>
+    <string name="enter_your_name">Please Enter Your Name</string>
+    <string name="start_game">START GAME</string>
+    <string name="name_cannot_be_empty">Name cannot be empty</string>
+    <string name="record_success">Record success</string>
 </resources>

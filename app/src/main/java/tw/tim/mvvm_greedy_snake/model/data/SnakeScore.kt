@@ -1,14 +1,14 @@
-package tw.tim.mvvm_greedy_snake.api
+package tw.tim.mvvm_greedy_snake.model.data
 
 import com.google.gson.annotations.SerializedName
 
 data class SnakeScore(
 
-    @SerializedName("state")
-    private var state: Boolean = false,
+    @SerializedName("State")
+    private var State: Boolean = false,
 
-    @SerializedName("message")
-    private var message: String = "",
+    @SerializedName("Message")
+    private var Message: String = "",
 
     @SerializedName("ID")
     private var ID: Int = 0,
@@ -19,4 +19,8 @@ data class SnakeScore(
     @SerializedName("Score")
     private var Score: Int = 0,
 
-)
+) {
+
+    fun getState():Boolean = State
+
+}
