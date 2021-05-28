@@ -1,5 +1,6 @@
 package tw.tim.mvvm_greedy_snake.api
 
+import android.database.Observable
 import retrofit2.Call
 import retrofit2.http.*
 import tw.tim.mvvm_greedy_snake.model.data.SnakeScore

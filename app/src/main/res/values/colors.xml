@@ -44,5 +44,7 @@
     <color name="light_gray">#d3d3d3</color>
     <color name="twitch_color">#9146FF</color>
     <color name="shadow_color">#55efefef</color>
+    <color name="gold_color">#fff1ba</color>
+    <color name="white_smoke_color">#f5f5f5</color>
 
 </resources>

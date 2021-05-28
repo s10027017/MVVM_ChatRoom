@@ -12,7 +12,9 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_rank.*
 import kotlinx.android.synthetic.main.activity_rank.toolbar
+import kotlinx.android.synthetic.main.item_rank.view.*
 import kotlinx.android.synthetic.main.rank_item.view.*
+import kotlinx.android.synthetic.main.rank_item.view.tv_score
 import tw.tim.mvvm_greedy_snake.R
 import tw.tim.mvvm_greedy_snake.model.data.SnakeScore
 import tw.tim.mvvm_greedy_snake.viewmodel.MainViewModel
@@ -184,16 +186,26 @@ class RankActivity : AppCompatActivity() {
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ScoreViewHolder {
             val v = LayoutInflater.from(parent.context)
-                    .inflate(R.layout.rank_item, parent, false)
+                    .inflate(R.layout.item_rank, parent, false)
             return ScoreViewHolder(v)
         }
 
         override fun onBindViewHolder(holder: ScoreViewHolder, position: Int) {
             val rootView = holder.itemView
-            val currentItem = list[position]
+            val data = list[position]
 
-            rootView.tv_name.text = currentItem.Name
-            rootView.tv_score.text = currentItem.Score.toString()
+//            rootView.tv_name.text = data.Name
+//            rootView.tv_score.text = data.Score.toString()
+            rootView.tv_rank_name.text = data.Name
+            if(position == 0){
+                rootView.bg_item.setBackgroundColor(getColor(R.color.gold_color))
+            }else if (position%2 == 1){
+                rootView.bg_item.setBackgroundColor(getColor(R.color.white_smoke_color))
+            }else{
+                rootView.bg_item.setBackgroundColor(getColor(R.color.white))
+            }
+            rootView.tv_rank.text = "#"+(position+1).toString()
+            rootView.tv_score.text = data.Score.toString()
         }
 
         override fun getItemCount(): Int {
