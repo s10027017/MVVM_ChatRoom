@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "239545430307",
+    "project_id": "greedysnake-6aa39",
+    "storage_bucket": "greedysnake-6aa39.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:239545430307:android:6dd78619112f3e00d15c96",
+        "android_client_info": {
+          "package_name": "tw.tim.mvvm_dataBinding"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "239545430307-ucr4ncncod41i576cafvf36f5t47ao45.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDRa5Mpf-9o09dYrE458niRURvz-A33E18"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "239545430307-ucr4ncncod41i576cafvf36f5t47ao45.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

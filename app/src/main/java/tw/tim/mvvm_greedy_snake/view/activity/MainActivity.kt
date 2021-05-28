@@ -10,12 +10,15 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.messaging.FirebaseMessaging
+import com.google.firebase.messaging.ktx.messaging
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.alert_dialog.view.*
 import kotlinx.android.synthetic.main.alert_dialog.view.dialog_start
 import kotlinx.android.synthetic.main.start_dialog.view.*
 import tw.tim.mvvm_greedy_snake.R
-import tw.tim.mvvm_greedy_snake.model.data.SnakeScore
 import tw.tim.mvvm_greedy_snake.model.enums.Direction
 import tw.tim.mvvm_greedy_snake.model.enums.GameState
 import tw.tim.mvvm_greedy_snake.viewmodel.MainViewModel
@@ -54,6 +57,31 @@ class MainActivity : AppCompatActivity() {
         initUniObserve()
         initStartGame()
         initButtons()
+
+        initFCMtest()
+
+    }
+
+    private fun initFCMtest() {
+        Firebase.messaging.isAutoInitEnabled = true
+
+        FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
+            if (!task.isSuccessful) {
+                Log.e("FCM token failed", task.exception.toString())
+                return@OnCompleteListener
+            }
+
+            // Get new FCM registration token
+            val token = task.result
+
+            // Log and toast
+//            val msg = getString(R.string.msg_token_fmt, token)
+            val msg = token
+            if (msg != null) {
+                Log.e("msg" ,msg)
+            }
+            Toast.makeText(baseContext, msg, Toast.LENGTH_SHORT).show()
+        })
     }
 
     /**
@@ -114,7 +142,7 @@ class MainActivity : AppCompatActivity() {
         // 寫入分數
         viewModel.insertLiveData.observe(this, {
             Log.e("it.body()", it.body().toString())
-            if(it.body()?.State == true){
+            if (it.body()?.State == true) {
                 Toast.makeText(this, getString(R.string.record_success), Toast.LENGTH_SHORT).show()
             }
 
