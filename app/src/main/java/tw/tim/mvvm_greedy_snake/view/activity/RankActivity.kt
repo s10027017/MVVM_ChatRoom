@@ -1,16 +1,22 @@
 package tw.tim.mvvm_greedy_snake.view.activity
 
+import android.annotation.SuppressLint
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
-import android.view.Menu
-import android.view.MenuItem
+import android.view.*
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
-import kotlinx.android.synthetic.main.activity_main.*
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.activity_rank.*
 import kotlinx.android.synthetic.main.activity_rank.toolbar
+import kotlinx.android.synthetic.main.item_rank.view.*
 import tw.tim.mvvm_greedy_snake.R
+import tw.tim.mvvm_greedy_snake.model.data.SnakeScore
+import tw.tim.mvvm_greedy_snake.view.adapter.BaseRecyclerViewAdapter
 import tw.tim.mvvm_greedy_snake.viewmodel.MainViewModel
 import java.text.SimpleDateFormat
 import java.util.*
@@ -20,6 +26,7 @@ class RankActivity : AppCompatActivity() {
     private lateinit var viewModel: MainViewModel
     val handler = Handler()
     private var runnable: Runnable? = null
+    private val rankAdapter = RankAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,11 +35,17 @@ class RankActivity : AppCompatActivity() {
         viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
 
         initActionBar()
+        initListView()
         initUniObserve()
         getRankData()
         setTime()
     }
 
+    fun initListView() {
+        val layoutManager = LinearLayoutManager(this)
+        ry_rank.layoutManager = layoutManager
+        ry_rank.adapter = rankAdapter
+    }
     private fun initActionBar() {
         setSupportActionBar(toolbar)
         supportActionBar?.apply {
@@ -52,6 +65,7 @@ class RankActivity : AppCompatActivity() {
     private fun initUniObserve() {
         // 抓取全部分數表
         viewModel.getRankLiveData.observe(this, {
+            rankAdapter.update(it)
             Log.e("getRankData",it.toString())
             Log.e("getRankData[0]",it[0].toString())
             Log.e("getRankData[1]",it[1].toString())
@@ -127,5 +141,33 @@ class RankActivity : AppCompatActivity() {
         super.onStop()
         runnable?.let { handler.removeCallbacks(it) }
     }
+    inner class RankAdapter : BaseRecyclerViewAdapter<SnakeScore, ViewHolder>() {
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+            val view = LayoutInflater.from(parent.context)
+                .inflate(R.layout.item_rank, parent, false)
+            return ViewHolder(view)
+        }
 
+        @RequiresApi(Build.VERSION_CODES.M)
+        @SuppressLint("SetTextI18n")
+        override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+            val rootView = holder.itemView
+            val data = list[position]
+
+            rootView.tv_rank_name.text = data.Name
+            if(position == 0){
+                rootView.bg_item.setBackgroundColor(getColor(R.color.gold_color))
+            }else if (position%2 == 1){
+                rootView.bg_item.setBackgroundColor(getColor(R.color.white_smoke_color))
+            }else{
+                rootView.bg_item.setBackgroundColor(getColor(R.color.white))
+            }
+            rootView.tv_rank.text = "#"+(position+1).toString()
+            rootView.tv_score.text = data.Score.toString()
+
+
+        }
+    }
+
+    class ViewHolder(v: View) : RecyclerView.ViewHolder(v)
 }

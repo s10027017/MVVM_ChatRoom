@@ -5,22 +5,18 @@ import com.google.gson.annotations.SerializedName
 data class SnakeScore(
 
     @SerializedName("State")
-    private var State: Boolean = false,
+    var State: Boolean = false,
 
     @SerializedName("Message")
-    private var Message: String = "",
+    var Message: String = "",
 
     @SerializedName("ID")
-    private var ID: Int = 0,
+    var ID: Int = 0,
 
     @SerializedName("Name")
-    private var Name: String = "",
+    var Name: String = "",
 
     @SerializedName("Score")
-    private var Score: Int = 0,
+    var Score: Int = 0,
 
-) {
-
-    fun getState():Boolean = State
-
-}
+)
