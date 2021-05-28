@@ -114,7 +114,7 @@ class MainActivity : AppCompatActivity() {
         // 寫入分數
         viewModel.insertLiveData.observe(this, {
             Log.e("it.body()", it.body().toString())
-            if(it.body()?.getState() == true){
+            if(it.body()?.State == true){
                 Toast.makeText(this, getString(R.string.record_success), Toast.LENGTH_SHORT).show()
             }
 

@@ -3,14 +3,18 @@ package tw.tim.mvvm_greedy_snake.view.activity
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
-import android.view.Menu
-import android.view.MenuItem
+import android.view.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_rank.*
 import kotlinx.android.synthetic.main.activity_rank.toolbar
+import kotlinx.android.synthetic.main.rank_item.view.*
 import tw.tim.mvvm_greedy_snake.R
+import tw.tim.mvvm_greedy_snake.model.data.SnakeScore
 import tw.tim.mvvm_greedy_snake.viewmodel.MainViewModel
 import java.text.SimpleDateFormat
 import java.util.*
@@ -20,6 +24,7 @@ class RankActivity : AppCompatActivity() {
     private lateinit var viewModel: MainViewModel
     val handler = Handler()
     private var runnable: Runnable? = null
+    private val scoreAdapter = ScoreApapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,10 +34,19 @@ class RankActivity : AppCompatActivity() {
 
         initActionBar()
         initUniObserve()
+        initSwipeRefresh()
+        initRecycleView()
         getRankData()
         setTime()
     }
 
+    /**
+     *  自定義ActionBar
+     *  https://www.itread01.com/content/1570118526.html
+     *
+     *  互動式CollapsingToolbarLayout
+     *  https://ithelp.ithome.com.tw/articles/10244448
+     */
     private fun initActionBar() {
         setSupportActionBar(toolbar)
         supportActionBar?.apply {
@@ -55,7 +69,42 @@ class RankActivity : AppCompatActivity() {
             Log.e("getRankData",it.toString())
             Log.e("getRankData[0]",it[0].toString())
             Log.e("getRankData[1]",it[1].toString())
+            scoreAdapter.update(it as MutableList<SnakeScore>)
         })
+    }
+
+    /**
+     *  Recycleview 下拉更新
+     */
+    private fun initSwipeRefresh() {
+        val handler = Handler()
+        // 下拉時觸發SwipeRefreshLayout的下拉動畫，動畫完畢之後就會回調這個方法
+        swipe_refresh.setOnRefreshListener(SwipeRefreshLayout.OnRefreshListener {
+            // 開始刷新，設置當前為刷新狀態
+            //swipeRefreshLayout.setRefreshing(true);
+            viewModel.getRankData()
+            // 這裡是主線程
+            // 一些比較耗時的操作，比如聯網獲取數據，需要放到子線程去執行
+            object : Thread() {
+                override fun run() {
+                    super.run()
+                    // 同步加載網絡數據
+                    // 加載數據 完畢後 關閉刷新狀態 切回主線程
+                    handler.postDelayed({ // 加載完數據設置為不刷新狀態，將下拉進度收起來
+                        swipe_refresh.setRefreshing(false)
+                    }, 100)
+                }
+            }.start()
+        })
+    }
+
+    /**
+     *  設定Recycleview Layout
+     */
+    private fun initRecycleView() {
+        val layoutManager = LinearLayoutManager(this)
+        ry_rank.layoutManager = layoutManager
+        ry_rank.adapter = scoreAdapter
     }
 
     /**
@@ -126,6 +175,39 @@ class RankActivity : AppCompatActivity() {
     override fun onStop() {
         super.onStop()
         runnable?.let { handler.removeCallbacks(it) }
+    }
+
+    // ScoreApapter : RecyclerView.Adapter<> 裡面要放ViewHolder 再自己建立一個 然後抓取後就可以覆寫3fun
+    inner class ScoreApapter : RecyclerView.Adapter<ScoreApapter.ScoreViewHolder>() {
+
+        val list = mutableListOf<SnakeScore>()
+
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ScoreViewHolder {
+            val v = LayoutInflater.from(parent.context)
+                    .inflate(R.layout.rank_item, parent, false)
+            return ScoreViewHolder(v)
+        }
+
+        override fun onBindViewHolder(holder: ScoreViewHolder, position: Int) {
+            val rootView = holder.itemView
+            val currentItem = list[position]
+
+            rootView.tv_name.text = currentItem.Name
+            rootView.tv_score.text = currentItem.Score.toString()
+        }
+
+        override fun getItemCount(): Int {
+            return list.size
+        }
+
+        fun update(updateList: MutableList<SnakeScore>) {
+            list.clear()
+            list.addAll(updateList)
+            notifyDataSetChanged()
+        }
+
+        inner class ScoreViewHolder(v: View) : RecyclerView.ViewHolder(v)
+
     }
 
 }

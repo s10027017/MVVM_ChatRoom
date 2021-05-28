@@ -61,4 +61,8 @@ dependencies {
     // Gson字串多雙引號問題 原因是你註冊了GsonConverter，沒註冊標準類型數據的轉換器，導致String這些都會轉成JSON 傳輸，你只需要加一個標準類型的轉換器就行了。
     implementation 'com.squareup.retrofit2:converter-scalars:2.3.0'
 
+    // google官方更新 實現Recycleview下拉更新
+    implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
+
+    
 }
