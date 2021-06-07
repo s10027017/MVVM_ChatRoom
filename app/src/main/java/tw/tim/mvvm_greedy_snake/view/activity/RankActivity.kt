@@ -185,8 +185,7 @@ class RankActivity : AppCompatActivity() {
         val list = mutableListOf<SnakeScore>()
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ScoreViewHolder {
-            val v = LayoutInflater.from(parent.context)
-                    .inflate(R.layout.item_rank, parent, false)
+            val v = LayoutInflater.from(parent.context).inflate(R.layout.item_rank, parent, false)
             return ScoreViewHolder(v)
         }
 

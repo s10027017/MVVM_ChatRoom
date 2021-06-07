@@ -78,9 +78,10 @@ class MainActivity : AppCompatActivity() {
 //            val msg = getString(R.string.msg_token_fmt, token)
             val msg = token
             if (msg != null) {
-                Log.e("msg" ,msg)
+                Log.e("msg", msg)
             }
-            Toast.makeText(baseContext, msg, Toast.LENGTH_SHORT).show()
+//            Toast.makeText(baseContext, msg, Toast.LENGTH_SHORT).show()
+            Log.e("FCM token:",msg.toString())
         })
     }
 
@@ -195,6 +196,15 @@ class MainActivity : AppCompatActivity() {
                 // 儲存紀錄
                 v.dialog_save.setOnClickListener {
                     viewModel.snakeScoreInsert()
+                }
+
+                // 聊天室測試
+                v.dialog_room.setOnClickListener {
+                    val bundle = Bundle()
+                    val intent = Intent(this, ChatActivity().javaClass)
+                    bundle.putString("name", viewModel.name)
+                    intent.putExtra("name",bundle)
+                    startActivity(intent)
                 }
 
                 // Rank排行榜

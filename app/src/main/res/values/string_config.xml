@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+<!--    <string translatable="false" name="agora_app_id">59174b3dc7f046a4afe6747f9fb2b965</string>-->
+
+<!--    <string translatable="false" name="agora_app_id">8193c64f65a448149b06e7ca6e425d38</string>-->
+
+<!--    <string translatable="false" name="agora_app_id">d6d872d168e94e168e411bae7cbd24db</string>-->
+
+    <!--  agora 後台 Project: testchatroom 不是使用rtm 登入成功!  -->
+<!--    <string translatable="false" name="agora_app_id">ee738b104ead4c4a836881a4396d3071</string>-->
+
+    <string translatable="false" name="agora_app_id">6baf21db7f424dbb93b1a1cf0b81ad56</string>
+
+
+<!--    <string translatable="false" name="agora_app_id">9d93664cf4f846629118c84b33d3e687</string>-->
+
+
+
+</resources>

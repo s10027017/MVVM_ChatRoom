@@ -3,12 +3,17 @@ package tw.tim.mvvm_greedy_snake.viewmodel
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import io.agora.rtm.ErrorInfo
+import io.agora.rtm.ResultCallback
+import io.agora.rtm.RtmClient
 import retrofit2.Response
 import tw.tim.mvvm_greedy_snake.model.data.SnakeScore
 import tw.tim.mvvm_greedy_snake.model.DataModel
 import tw.tim.mvvm_greedy_snake.model.data.Position
 import tw.tim.mvvm_greedy_snake.model.enums.Direction
 import tw.tim.mvvm_greedy_snake.model.enums.GameState
+import tw.tim.mvvm_greedy_snake.rtmtutorial.AGApplication
+import tw.tim.mvvm_greedy_snake.rtmtutorial.ChatManager
 import kotlin.concurrent.fixedRateTimer
 import kotlin.random.Random
 
@@ -32,6 +37,9 @@ class MainViewModel : ViewModel(), DataModel.OnDataReadyCallback{
     val insertLiveData: MutableLiveData<Response<SnakeScore>> = MutableLiveData()
     val getRankLiveData: MutableLiveData<List<SnakeScore>> = MutableLiveData()
     private var mDataModel: DataModel = DataModel()
+
+//    private var mChatManager: ChatManager = AGApplication.the().getChatManager()
+//    private var mRtmClient: RtmClient? = mChatManager.getRtmClient()
 
 
     /**
@@ -139,6 +147,34 @@ class MainViewModel : ViewModel(), DataModel.OnDataReadyCallback{
      */
     private fun nextBonus() : Position {
         return Position(Random.nextInt(size), Random.nextInt(size))
+    }
+
+    /**
+     *  登入聊天室
+     */
+     fun loginChat(tname :String?) {
+
+//        if (tname != null) {
+//            name = tname
+//        }
+//        mChatManager = AGApplication.the().getChatManager()
+//        mRtmClient = mChatManager.getRtmClient()
+
+//        Log.e("mChatManager", mChatManager.toString())
+//        Log.e("mRtmClient", mRtmClient.toString())
+//
+//        Log.e("loginChat","loginChat")
+//        Log.e("loginChat_name",name)
+//        mRtmClient?.login(null, name, object : ResultCallback<Void?> {
+//            override fun onSuccess(p0: Void?) {
+//                Log.e("Login Success: ", p0.toString())
+//            }
+//
+//            override fun onFailure(p0: ErrorInfo?) {
+//                Log.e("Login Failure: ", p0.toString())
+//            }
+//
+//        })
     }
 
     override fun onListData(data: List<SnakeScore>?) {
