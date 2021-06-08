@@ -66,35 +66,35 @@
             app:layout_constraintStart_toEndOf="@+id/score"
             app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
-        <Button
-            android:id="@+id/dialog_room"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
-            android:background="@drawable/bg_btn_blue_round_12p"
-            android:text="ROOM"
-            android:textColor="@color/white"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toStartOf="@+id/dialog_get"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/score" />
+<!--        <Button-->
+<!--            android:id="@+id/dialog_room"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginTop="40dp"-->
+<!--            android:background="@drawable/bg_btn_blue_round_12p"-->
+<!--            android:text="ROOM"-->
+<!--            android:textColor="@color/white"-->
+<!--            android:textSize="18sp"-->
+<!--            android:textStyle="bold"-->
+<!--            app:layout_constraintEnd_toStartOf="@+id/dialog_get"-->
+<!--            app:layout_constraintHorizontal_bias="0.5"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/score" />-->
 
-        <Button
-            android:id="@+id/dialog_get"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
-            android:background="@drawable/bg_btn_blue_round_12p"
-            android:text="@string/rank"
-            android:textColor="@color/white"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/dialog_room"
-            app:layout_constraintTop_toBottomOf="@+id/score" />
+<!--        <Button-->
+<!--            android:id="@+id/dialog_get"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginTop="40dp"-->
+<!--            android:background="@drawable/bg_btn_blue_round_12p"-->
+<!--            android:text="@string/rank"-->
+<!--            android:textColor="@color/white"-->
+<!--            android:textSize="18sp"-->
+<!--            android:textStyle="bold"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintHorizontal_bias="0.5"-->
+<!--            app:layout_constraintStart_toEndOf="@+id/dialog_room"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/score" />-->
 
         <Button
             android:id="@+id/dialog_cancel"
@@ -109,7 +109,7 @@
             app:layout_constraintEnd_toStartOf="@+id/dialog_start"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/dialog_get" />
+            app:layout_constraintTop_toBottomOf="@+id/dialog_save" />
 
         <Button
             android:id="@+id/dialog_start"
@@ -124,7 +124,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/dialog_cancel"
-            app:layout_constraintTop_toBottomOf="@+id/dialog_get" />
+            app:layout_constraintTop_toBottomOf="@+id/dialog_save" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -5,6 +5,7 @@ import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -14,10 +15,9 @@ import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.messaging.FirebaseMessaging
 import com.google.firebase.messaging.ktx.messaging
-import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_game.*
 import kotlinx.android.synthetic.main.alert_dialog.view.*
 import kotlinx.android.synthetic.main.alert_dialog.view.dialog_start
-import kotlinx.android.synthetic.main.start_dialog.view.*
 import tw.tim.mvvm_greedy_snake.R
 import tw.tim.mvvm_greedy_snake.model.enums.Direction
 import tw.tim.mvvm_greedy_snake.model.enums.GameState
@@ -40,13 +40,13 @@ import tw.tim.mvvm_greedy_snake.viewmodel.MainViewModel
 // 自定義toolbar 、 alertDialog
 // (MVVM) Model後臺業務邏輯、資料部分  View UI介面  ViewModel處理UI業務邏輯
 
-class MainActivity : AppCompatActivity() {
+class GameActivity : AppCompatActivity() {
 
     private lateinit var viewModel: MainViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_game)
 
         // gradle 要+ implementation 'androidx.appcompat:appcompat:1.1.0'
         // implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0' 不然找不到ViewModelProvider(this).get 這個fun
@@ -58,31 +58,29 @@ class MainActivity : AppCompatActivity() {
         initStartGame()
         initButtons()
 
-        initFCMtest()
-
     }
 
     private fun initFCMtest() {
-        Firebase.messaging.isAutoInitEnabled = true
-
-        FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
-            if (!task.isSuccessful) {
-                Log.e("FCM token failed", task.exception.toString())
-                return@OnCompleteListener
-            }
-
-            // Get new FCM registration token
-            val token = task.result
-
-            // Log and toast
-//            val msg = getString(R.string.msg_token_fmt, token)
-            val msg = token
-            if (msg != null) {
-                Log.e("msg", msg)
-            }
-//            Toast.makeText(baseContext, msg, Toast.LENGTH_SHORT).show()
-            Log.e("FCM token:",msg.toString())
-        })
+//        Firebase.messaging.isAutoInitEnabled = true
+//
+//        FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
+//            if (!task.isSuccessful) {
+//                Log.e("FCM token failed", task.exception.toString())
+//                return@OnCompleteListener
+//            }
+//
+//            // Get new FCM registration token
+//            val token = task.result
+//
+//            // Log and toast
+////            val msg = getString(R.string.msg_token_fmt, token)
+//            val msg = token
+//            if (msg != null) {
+//                Log.e("msg", msg)
+//            }
+////            Toast.makeText(baseContext, msg, Toast.LENGTH_SHORT).show()
+//            Log.e("FCM token:",msg.toString())
+//        })
     }
 
     /**
@@ -98,6 +96,9 @@ class MainActivity : AppCompatActivity() {
             setBackgroundDrawable(colorDrawable)
             // 在Layout上有做一個TextView了 所以不用內建的
 //            setTitle(R.string.app_name)
+            setHomeButtonEnabled(true)
+            setDisplayHomeAsUpEnabled(true)
+            setHomeAsUpIndicator(R.drawable.ic_white_arrow_left_40)
         }
 
         // 自訂的Textview 改Title 但會因為左邊圖案顯示而跑版 要再做額外判斷
@@ -176,7 +177,7 @@ class MainActivity : AppCompatActivity() {
                 // 自定義AlertDialog  也可以專寫一個class 繼承自定義AlertDialog 改寫然後處理他
                 val alertDialog: AlertDialog = AlertDialog.Builder(this).create()
                 //取得自訂的版面。
-                val inflater = LayoutInflater.from(this@MainActivity)
+                val inflater = LayoutInflater.from(this@GameActivity)
                 val v: View = inflater.inflate(R.layout.alert_dialog, null)
                 // 設置view
                 alertDialog.setView(v)
@@ -199,20 +200,19 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 // 聊天室測試
-                v.dialog_room.setOnClickListener {
-                    val bundle = Bundle()
-                    val intent = Intent(this, ChatActivity().javaClass)
-                    bundle.putString("name", viewModel.name)
-                    intent.putExtra("name",bundle)
-                    startActivity(intent)
-                }
+//                v.dialog_room.setOnClickListener {
+//                    val bundle = Bundle()
+//                    val intent = Intent(this, ChatActivity().javaClass)
+//                    bundle.putString("name", viewModel.name)
+//                    intent.putExtra("name",bundle)
+//                    startActivity(intent)
+//                }
 
                 // Rank排行榜
-                v.dialog_get.setOnClickListener {
-//                    viewModel.getSnakeScore()
-                    val intent = Intent(this, RankActivity().javaClass)
-                    startActivity(intent)
-                }
+//                v.dialog_get.setOnClickListener {
+//                    val intent = Intent(this, RankActivity().javaClass)
+//                    startActivity(intent)
+//                }
 
                 // 點擊範圍外無反應
                 alertDialog.setCancelable(false)
@@ -233,32 +233,38 @@ class MainActivity : AppCompatActivity() {
 
     // 開始遊戲
     private fun initStartGame() {
+
+        viewModel.start()
+
+        val name = intent.getBundleExtra("name")?.getString("name")
+        viewModel.name = name.toString()
+
         // 自定義AlertDialog  也可以專寫一個class 繼承自定義AlertDialog 改寫然後處理他
-        val alertDialog: AlertDialog = AlertDialog.Builder(this).create()
-        //取得自訂的版面。
-        val inflater = LayoutInflater.from(this@MainActivity)
-        val v: View = inflater.inflate(R.layout.start_dialog, null)
-        // 設置view
-        alertDialog.setView(v)
-
-        v.dialog_start.setOnClickListener {
-            val name = v.dialog_et_name.text.toString()
-            if(name.equals("")){
-                Toast.makeText(this, getString(R.string.name_cannot_be_empty), Toast.LENGTH_SHORT).show()
-            }
-            viewModel.name = name
-            viewModel.start()
-            alertDialog.dismiss()
-        }
-
-        // 點擊範圍外無反應
-        alertDialog.setCancelable(false)
-
-        alertDialog.show()
-
-        // AlertDialog 用有設定好圓角的xml 顯示會無法顯示
-        // https://stackoverflow.com/questions/16861310/android-dialog-rounded-corners-and-transparency
-        alertDialog.window?.setBackgroundDrawableResource(R.color.transparent)
+//        val alertDialog: AlertDialog = AlertDialog.Builder(this).create()
+//        //取得自訂的版面。
+//        val inflater = LayoutInflater.from(this@MainActivity)
+//        val v: View = inflater.inflate(R.layout.start_dialog, null)
+//        // 設置view
+//        alertDialog.setView(v)
+//
+//        v.dialog_start.setOnClickListener {
+//            val name = v.dialog_et_name.text.toString()
+//            if(name.equals("")){
+//                Toast.makeText(this, getString(R.string.name_cannot_be_empty), Toast.LENGTH_SHORT).show()
+//            }
+//            viewModel.name = name
+//            viewModel.start()
+//            alertDialog.dismiss()
+//        }
+//
+//        // 點擊範圍外無反應
+//        alertDialog.setCancelable(false)
+//
+//        alertDialog.show()
+//
+//        // AlertDialog 用有設定好圓角的xml 顯示會無法顯示
+//        // https://stackoverflow.com/questions/16861310/android-dialog-rounded-corners-and-transparency
+//        alertDialog.window?.setBackgroundDrawableResource(R.color.transparent)
     }
 
     /**
@@ -270,6 +276,15 @@ class MainActivity : AppCompatActivity() {
         left.setOnClickListener { viewModel.move(Direction.LEFT) }
         right.setOnClickListener { viewModel.move(Direction.RIGHT) }
         replay.setOnClickListener { viewModel.start() }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            android.R.id.home -> {
+                this.finish()
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 
 }

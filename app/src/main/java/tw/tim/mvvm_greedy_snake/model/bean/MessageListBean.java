@@ -1,4 +1,4 @@
-package tw.tim.mvvm_greedy_snake.model;
+package tw.tim.mvvm_greedy_snake.model.bean;
 
 import java.util.ArrayList;
 import java.util.List;

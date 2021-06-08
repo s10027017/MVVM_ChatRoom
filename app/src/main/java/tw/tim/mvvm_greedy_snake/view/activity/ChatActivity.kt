@@ -12,8 +12,6 @@ import io.agora.rtm.ErrorInfo
 import io.agora.rtm.ResultCallback
 import io.agora.rtm.RtmClient
 import kotlinx.android.synthetic.main.activity_chat.*
-import kotlinx.android.synthetic.main.activity_main.toolbar
-import kotlinx.android.synthetic.main.activity_main.tv_toolbar
 import tw.tim.mvvm_greedy_snake.R
 import tw.tim.mvvm_greedy_snake.rtmtutorial.AGApplication
 import tw.tim.mvvm_greedy_snake.rtmtutorial.ChatManager
@@ -56,6 +54,7 @@ class ChatActivity : AppCompatActivity() {
             setBackgroundDrawable(colorDrawable)
             setHomeButtonEnabled(true)
             setDisplayHomeAsUpEnabled(true)
+            setHomeAsUpIndicator(R.drawable.ic_black_arrow_left_40)
         }
 
         // 自訂的Textview 改Title 但會因為左邊圖案顯示而跑版 要再做額外判斷

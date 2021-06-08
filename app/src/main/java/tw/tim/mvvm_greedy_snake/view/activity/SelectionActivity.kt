@@ -3,10 +3,15 @@ package tw.tim.mvvm_greedy_snake.view.activity
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
 import android.widget.*
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.AppCompatCheckBox
+import io.agora.rtm.RtmClient
 import kotlinx.android.synthetic.main.activity_selection.*
+import kotlinx.android.synthetic.main.chat_room_login_dialog.view.*
 import tw.tim.mvvm_greedy_snake.R
 import tw.tim.mvvm_greedy_snake.rtmtutorial.AGApplication
 import tw.tim.mvvm_greedy_snake.rtmtutorial.ChatManager
@@ -21,12 +26,16 @@ class SelectionActivity : Activity() {
     private var mTargetName: String? = null
     private var mUserId: String? = null
 
-    private var mChatManager: ChatManager? = null
+    private var mRtmClient: RtmClient? = null
+    private lateinit var mChatManager: ChatManager
 
-    protected override fun onCreate(savedInstanceState: Bundle?) {
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_selection)
+
         mChatManager = AGApplication.the().getChatManager()
+        mRtmClient = mChatManager.getRtmClient()
+
         initUIAndData()
     }
 
@@ -87,16 +96,40 @@ class SelectionActivity : Activity() {
         startActivityForResult(intent, CHAT_REQUEST_CODE)
     }
 
-    protected override fun onResume() {
+    override fun onResume() {
         super.onResume()
         selection_chat_btn!!.isEnabled = true
     }
 
     fun onClickFinish(v: View?) {
-        finish()
+        val alertDialog: AlertDialog = AlertDialog.Builder(this).create()
+        val inflater = LayoutInflater.from(this)
+        val v: View = inflater.inflate(R.layout.chat_room_logout_dialog, null)
+        alertDialog.setView(v)
+        v.dialog_chat_confirm.setOnClickListener {
+            initLogout()
+            alertDialog.dismiss()
+            finish()
+        }
+        v.dialog_chat_cancel.setOnClickListener {
+            alertDialog.dismiss()
+        }
+        alertDialog.setCancelable(false)
+        alertDialog.show()
+        alertDialog.window?.setBackgroundDrawableResource(R.color.transparent)
+
     }
 
-    protected override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+    private fun initLogout() {
+        mRtmClient!!.logout(null)
+        MessageUtil.cleanMessageListBeanList()
+        runOnUiThread {
+            Toast.makeText(this, "你已登出聊天室", Toast.LENGTH_SHORT).show()
+            Log.e("Login out ", "Login out ")
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == CHAT_REQUEST_CODE) {
             if (resultCode == MessageUtil.ACTIVITY_RESULT_CONN_ABORTED) {

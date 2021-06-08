@@ -18,7 +18,7 @@ import io.agora.rtm.RtmImageMessage;
 import io.agora.rtm.RtmMessage;
 import io.agora.rtm.RtmMessageType;
 import tw.tim.mvvm_greedy_snake.R;
-import tw.tim.mvvm_greedy_snake.model.MessageBean;
+import tw.tim.mvvm_greedy_snake.model.bean.MessageBean;
 
 
 public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MyViewHolder> {

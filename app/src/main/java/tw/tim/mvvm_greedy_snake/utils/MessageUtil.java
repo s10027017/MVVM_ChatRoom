@@ -7,8 +7,8 @@ import java.util.Random;
 
 import io.agora.rtm.RtmMessage;
 import tw.tim.mvvm_greedy_snake.R;
-import tw.tim.mvvm_greedy_snake.model.MessageBean;
-import tw.tim.mvvm_greedy_snake.model.MessageListBean;
+import tw.tim.mvvm_greedy_snake.model.bean.MessageBean;
+import tw.tim.mvvm_greedy_snake.model.bean.MessageListBean;
 
 public class MessageUtil {
     public static final int MAX_INPUT_NAME_LENGTH = 64;

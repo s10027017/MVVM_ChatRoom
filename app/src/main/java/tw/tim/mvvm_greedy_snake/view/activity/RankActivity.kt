@@ -9,11 +9,9 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_rank.*
 import kotlinx.android.synthetic.main.activity_rank.toolbar
 import kotlinx.android.synthetic.main.item_rank.view.*
-import kotlinx.android.synthetic.main.rank_item.view.*
 import kotlinx.android.synthetic.main.rank_item.view.tv_score
 import tw.tim.mvvm_greedy_snake.R
 import tw.tim.mvvm_greedy_snake.model.data.SnakeScore
@@ -55,11 +53,12 @@ class RankActivity : AppCompatActivity() {
             setHomeButtonEnabled(true)
             setDisplayHomeAsUpEnabled(true)
             // 換返回鍵圖案
-//            setHomeAsUpIndicator(R.drawable.ic_launcher_background)
+            setHomeAsUpIndicator(R.drawable.ic_black_arrow_left_40)
         }
         val titleColor = resources.getColor(R.color.black)
         tv_rank_toolbar.setTextColor(titleColor)
         tv_rank_toolbar.text = getString(R.string.leaderboard)
+
     }
 
     /**

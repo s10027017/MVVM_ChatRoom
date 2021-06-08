@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    tools:context=".view.activity.MainActivity">
+    tools:context=".view.activity.GameActivity">
 
     <view
         android:id="@+id/game_view"
@@ -32,6 +32,8 @@
             android:id="@+id/tv_toolbar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginEnd="60dp"
+            android:layout_marginRight="60dp"
             android:gravity="center"
             android:textColor="@color/white"
             android:textSize="24sp"
