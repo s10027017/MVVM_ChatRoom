@@ -17,9 +17,9 @@ import io.agora.rtm.ErrorInfo
 import io.agora.rtm.ResultCallback
 import io.agora.rtm.RtmClient
 import kotlinx.android.synthetic.main.activity_index.*
-import kotlinx.android.synthetic.main.alert_dialog.view.*
-import kotlinx.android.synthetic.main.chat_room_login_dialog.view.*
-import kotlinx.android.synthetic.main.login_dialog.view.*
+import kotlinx.android.synthetic.main.dialog_chat_room_login.view.*
+import kotlinx.android.synthetic.main.dialog_login.view.*
+import kotlinx.android.synthetic.main.dialog_logout.view.*
 import tw.tim.mvvm_greedy_snake.R
 import tw.tim.mvvm_greedy_snake.rtmtutorial.AGApplication
 import tw.tim.mvvm_greedy_snake.rtmtutorial.ChatManager
@@ -82,7 +82,7 @@ class IndexActivity : AppCompatActivity() {
             val alertDialog: AlertDialog = AlertDialog.Builder(this).create()
             //取得自訂的版面。
             val inflater = LayoutInflater.from(this)
-            val v: View = inflater.inflate(R.layout.login_dialog, null)
+            val v: View = inflater.inflate(R.layout.dialog_login, null)
             // 設置view
             alertDialog.setView(v)
 
@@ -95,6 +95,8 @@ class IndexActivity : AppCompatActivity() {
                 }
                 index_name_title.text = "Hi "
                 index_name.text = name
+
+                Toast.makeText(this, "你已成功登入帳號!", Toast.LENGTH_SHORT).show()
 
                 checkName()
             }
@@ -129,14 +131,14 @@ class IndexActivity : AppCompatActivity() {
             val name = index_name.text.toString()
             val alertDialog: AlertDialog = AlertDialog.Builder(this).create()
             val inflater = LayoutInflater.from(this)
-            val v: View = inflater.inflate(R.layout.chat_room_login_dialog, null)
+            val v: View = inflater.inflate(R.layout.dialog_chat_room_login, null)
             alertDialog.setView(v)
             v.dialog_chat_confirm.setOnClickListener {
                 mRtmClient?.login(null, name, object : ResultCallback<Void?> {
                     override fun onSuccess(p0: Void?) {
                         // 沒加runOnUiThread 會跑不出來
                         runOnUiThread {
-                            val intent = Intent(this@IndexActivity, SelectionActivity::class.java)
+                            val intent = Intent(this@IndexActivity, ChatRoomActivity::class.java)
                             intent.putExtra(MessageUtil.INTENT_EXTRA_USER_ID, name)
                             startActivity(intent)
                             alertDialog.dismiss()
@@ -168,8 +170,22 @@ class IndexActivity : AppCompatActivity() {
         }
         // 帳號登出
         btn_signout.setOnClickListener {
-            index_name.text = ""
-            checkName()
+            val alertDialog: AlertDialog = AlertDialog.Builder(this).create()
+            val inflater = LayoutInflater.from(this)
+            val v: View = inflater.inflate(R.layout.dialog_logout, null)
+            alertDialog.setView(v)
+            v.dialog_logout.setOnClickListener {
+                alertDialog.dismiss()
+                index_name.text = ""
+                Toast.makeText(this, "你已成功登出帳號!", Toast.LENGTH_SHORT).show()
+                checkName()
+            }
+            v.dialog_logout_cancel.setOnClickListener {
+                alertDialog.dismiss()
+            }
+            alertDialog.setCancelable(false)
+            alertDialog.show()
+            alertDialog.window?.setBackgroundDrawableResource(R.color.transparent)
         }
     }
 

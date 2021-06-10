@@ -12,7 +12,6 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import kotlinx.android.synthetic.main.activity_rank.*
 import kotlinx.android.synthetic.main.activity_rank.toolbar
 import kotlinx.android.synthetic.main.item_rank.view.*
-import kotlinx.android.synthetic.main.rank_item.view.tv_score
 import tw.tim.mvvm_greedy_snake.R
 import tw.tim.mvvm_greedy_snake.model.data.SnakeScore
 import tw.tim.mvvm_greedy_snake.viewmodel.MainViewModel

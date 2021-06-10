@@ -1,6 +1,5 @@
 package tw.tim.mvvm_greedy_snake.view.activity
 
-import android.content.Intent
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.Log
@@ -11,13 +10,8 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
-import com.google.android.gms.tasks.OnCompleteListener
-import com.google.firebase.ktx.Firebase
-import com.google.firebase.messaging.FirebaseMessaging
-import com.google.firebase.messaging.ktx.messaging
 import kotlinx.android.synthetic.main.activity_game.*
-import kotlinx.android.synthetic.main.alert_dialog.view.*
-import kotlinx.android.synthetic.main.alert_dialog.view.dialog_start
+import kotlinx.android.synthetic.main.dialog_game.view.*
 import tw.tim.mvvm_greedy_snake.R
 import tw.tim.mvvm_greedy_snake.model.enums.Direction
 import tw.tim.mvvm_greedy_snake.model.enums.GameState
@@ -178,7 +172,7 @@ class GameActivity : AppCompatActivity() {
                 val alertDialog: AlertDialog = AlertDialog.Builder(this).create()
                 //取得自訂的版面。
                 val inflater = LayoutInflater.from(this@GameActivity)
-                val v: View = inflater.inflate(R.layout.alert_dialog, null)
+                val v: View = inflater.inflate(R.layout.dialog_game, null)
                 // 設置view
                 alertDialog.setView(v)
 

@@ -8,10 +8,12 @@
         android:id="@+id/selection_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/blue"
+        android:background="#1681FC"
         android:gravity="center"
         android:padding="15dp"
         android:text="@string/title_peer_msg"
+        android:textSize="18sp"
+        android:textStyle="bold"
         android:textColor="@color/white" />
 
     <ImageView
@@ -41,10 +43,12 @@
         android:layout_below="@+id/selection_title"
         android:layout_alignParentRight="true"
         android:layout_margin="40dp"
-        android:background="@color/blue"
+        android:background="@drawable/bg_btn_blue_round_12p"
         android:clickable="true"
         android:gravity="center"
         android:onClick="onClickChat"
+        android:textSize="18sp"
+        android:textStyle="bold"
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
         android:text="@string/btn_chat"
@@ -61,6 +65,8 @@
         android:layout_toLeftOf="@+id/selection_chat_btn"
         android:background="@color/white"
         android:hint="@string/hint_friend"
+        android:textSize="18sp"
+        android:textStyle="bold"
         android:lines="1"
         android:padding="5dp" />
 
@@ -71,14 +77,16 @@
         android:layout_below="@id/selection_name"
         android:layout_alignStart="@id/selection_name"
         android:layout_alignLeft="@id/selection_name"
-        android:text="@string/hint_enable_offline_message" />
+        android:text="@string/hint_enable_offline_message"
+        android:textSize="18sp"
+        android:textStyle="bold"/>
 
     <RadioGroup
         android:id="@+id/mode_radio_group"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:background="@color/blue"
+        android:background="#1681FC"
         android:orientation="horizontal"
         android:paddingLeft="120dp"
         android:paddingTop="10dp"

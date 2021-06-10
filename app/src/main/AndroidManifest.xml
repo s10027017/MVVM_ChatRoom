@@ -36,12 +36,7 @@
             android:windowSoftInputMode="adjustPan" />
 
         <activity
-            android:name="tw.tim.mvvm_greedy_snake.view.activity.ChatActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan" />
-
-        <activity
-            android:name="tw.tim.mvvm_greedy_snake.view.activity.SelectionActivity"
+            android:name="tw.tim.mvvm_greedy_snake.view.activity.ChatRoomActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
 
