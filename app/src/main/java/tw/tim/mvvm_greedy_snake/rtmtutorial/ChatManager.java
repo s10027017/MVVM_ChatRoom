@@ -48,7 +48,12 @@ public class ChatManager {
                         // If currently there is no callback to handle this
                         // message, this message is unread yet. Here we also
                         // take it as an offline message.
-                        mMessagePool.insertOfflineMessage(rtmMessage, peerId);
+
+                        // 接收到對方的訊息 存到離線訊息
+                        Log.e("chatManger_rtmMessage ", rtmMessage.toString());
+                        Log.e("chatManger_peerId ", peerId);
+                        mMessagePool.insertOfflineMessage(rtmMessage, peerId, false);
+//                        insertOfflineMessage(rtmMessage, peerId);
                     } else {
                         for (RtmClientListener listener : mListenerList) {
                             listener.onMessageReceived(rtmMessage, peerId);
@@ -62,7 +67,7 @@ public class ChatManager {
                         // If currently there is no callback to handle this
                         // message, this message is unread yet. Here we also
                         // take it as an offline message.
-                        mMessagePool.insertOfflineMessage(rtmImageMessage, peerId);
+                        mMessagePool.insertOfflineMessage(rtmImageMessage, peerId, false);
                     } else {
                         for (RtmClientListener listener : mListenerList) {
                             listener.onImageMessageReceivedFromPeer(rtmImageMessage, peerId);
@@ -104,7 +109,7 @@ public class ChatManager {
             throw new RuntimeException("NEED TO check rtm sdk init fatal error\n" + Log.getStackTraceString(e));
         }
 
-        // Global option, mainly used to determine whether
+        // Global option, mainly used to determine whether  離線訊息用
         // to support offline messages now.
         mSendMsgOptions = new SendMessageOptions();
     }
@@ -137,7 +142,28 @@ public class ChatManager {
         return mMessagePool.getAllOfflineMessages(peerId);
     }
 
+    public List<RtmMessage> getAllHistoryMessages(String peerId) {
+        return mMessagePool.getAllHistoryMessages(peerId);
+    }
+
+    public Map<String, List<RtmMessage>> getAllMessages() {
+        return mMessagePool.getAllMessages();
+    }
+
+    public Map<String, List<RtmMessage>> getOnlineMessages() {
+        return mMessagePool.getOnlineMessages();
+    }
+
     public void removeAllOfflineMessages(String peerId) {
         mMessagePool.removeAllOfflineMessages(peerId);
     }
+
+    public void removeAllMessages() {
+        mMessagePool.removeAllMessages();
+    }
+
+    public void insertOnlineMessage(RtmMessage rtmMessage, String peerId, Boolean online){
+        mMessagePool.insertOfflineMessage(rtmMessage, peerId, online);
+    }
+
 }

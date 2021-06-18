@@ -54,4 +54,5 @@ public class MessageBean {
     public void setBeSelf(boolean beSelf) {
         this.beSelf = beSelf;
     }
+
 }

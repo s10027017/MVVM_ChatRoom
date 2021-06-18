@@ -3,6 +3,7 @@ package tw.tim.mvvm_greedy_snake.view.adapter;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,12 +51,18 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MyViewHo
         return messageBeanList.size();
     }
 
+    // 把訊息丟過來 然後再判別是自己還是別人
     private void setupView(MyViewHolder holder, int position) {
         MessageBean bean = messageBeanList.get(position);
+        Log.e("MessageAdapter_bean", messageBeanList.toString() );
+
+        // 如果是自己的 就顯示名字出來
         if (bean.isBeSelf()) {
             holder.textViewSelfName.setText(bean.getAccount());
+            Log.e("MessageAdapter_bean_isBeSelf", bean.getAccount());
         } else {
             holder.textViewOtherName.setText(bean.getAccount());
+            Log.e("MessageAdapter_bean_other", bean.getAccount());
             if (bean.getBackground() != 0) {
                 holder.textViewOtherName.setBackgroundResource(bean.getBackground());
             }
@@ -65,16 +72,23 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MyViewHo
             if (listener != null) listener.onItemClick(bean);
         });
 
+        // 取得訊息
         // Error : Attempt to invoke virtual method 'int io.agora.rtm.RtmMessage.getMessageType()' on a null object reference
         RtmMessage rtmMessage = bean.getMessage();
+        // io.agora.rtm.internal.RtmMessageImpl@adc7f36
+        Log.e("MessageAdapter_rtmMessage", rtmMessage.toString() );
+
         switch (rtmMessage.getMessageType()) {
             case RtmMessageType.TEXT:
                 if (bean.isBeSelf()) {
                     holder.textViewSelfMsg.setVisibility(View.VISIBLE);
                     holder.textViewSelfMsg.setText(rtmMessage.getText());
+                    // 11
+                    Log.e("MessageAdapter_rtmMessage.isBeSelf_getText()", rtmMessage.getText());
                 } else {
                     holder.textViewOtherMsg.setVisibility(View.VISIBLE);
                     holder.textViewOtherMsg.setText(rtmMessage.getText());
+                    Log.e("MessageAdapter_rtmMessage.other_getText()", rtmMessage.getText());
                 }
 
                 holder.imageViewSelfImg.setVisibility(View.GONE);

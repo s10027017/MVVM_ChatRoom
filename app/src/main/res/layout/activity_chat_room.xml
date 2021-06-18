@@ -1,30 +1,63 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_video_chat_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/selection_title"
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#1681FC"
-        android:gravity="center"
-        android:padding="15dp"
-        android:text="@string/title_peer_msg"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        android:textColor="@color/white" />
-
-    <ImageView
-        android:id="@+id/img_return"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="onClickFinish"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
-        android:layout_marginTop="4dp"
-        android:background="@drawable/ic_white_arrow_left_40" />
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginLeft="0dp"
+        android:layout_marginTop="0dp"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme">
+
+        <TextView
+            android:id="@+id/tv_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="60dp"
+            android:layout_marginRight="60dp"
+            android:gravity="center"
+            android:text="@string/title_peer_msg"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+    </androidx.appcompat.widget.Toolbar>
+
+<!--    <TextView-->
+<!--        android:id="@+id/selection_title"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:background="#1681FC"-->
+<!--        android:gravity="center"-->
+<!--        android:padding="15dp"-->
+<!--        android:text="@string/title_peer_msg"-->
+<!--        android:textSize="18sp"-->
+<!--        android:textStyle="bold"-->
+<!--        android:textColor="@color/white" />-->
+
+<!--    <ImageView-->
+<!--        android:id="@+id/img_return"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:onClick="onClickFinish"-->
+<!--        android:layout_alignParentStart="true"-->
+<!--        android:layout_alignParentLeft="true"-->
+<!--        android:layout_marginTop="4dp"-->
+<!--        android:background="@drawable/ic_white_arrow_left_40" />-->
 
 <!--    <ImageView-->
 <!--        android:layout_width="32dp"-->
@@ -36,80 +69,186 @@
 <!--        android:onClick="onClickFinish"-->
 <!--        android:padding="15dp" />-->
 
+
     <TextView
-        android:id="@+id/selection_chat_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="40dp"
-        android:layout_below="@+id/selection_title"
-        android:layout_alignParentRight="true"
-        android:layout_margin="40dp"
-        android:background="@drawable/bg_btn_blue_round_12p"
-        android:clickable="true"
-        android:gravity="center"
-        android:onClick="onClickChat"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp"
-        android:text="@string/btn_chat"
-        android:textColor="@color/white" />
-
-    <EditText
-        android:id="@+id/selection_name"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_below="@+id/selection_title"
-        android:layout_marginLeft="40dp"
-        android:layout_marginTop="40dp"
-        android:layout_marginBottom="25dp"
-        android:layout_toLeftOf="@+id/selection_chat_btn"
-        android:background="@color/white"
-        android:hint="@string/hint_friend"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        android:lines="1"
-        android:padding="5dp" />
-
-    <androidx.appcompat.widget.AppCompatCheckBox
-        android:id="@+id/offline_msg_check"
+        android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/selection_name"
-        android:layout_alignStart="@id/selection_name"
-        android:layout_alignLeft="@id/selection_name"
-        android:text="@string/hint_enable_offline_message"
+        android:layout_below="@+id/toolbar"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginStart="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="8dp"
+        android:text="Hi"
         android:textSize="18sp"
         android:textStyle="bold"/>
+
+    <TextView
+        android:id="@+id/tv_username"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/toolbar"
+        android:layout_marginStart="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="8dp"
+        android:layout_toEndOf="@+id/textView"
+        android:layout_toRightOf="@+id/textView"
+        android:text="name"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cy_chat_room"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/mode_radio_group"
+        android:layout_below="@+id/tv_username"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginLeft="0dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginEnd="0dp"
+        android:layout_marginRight="0dp"
+        android:layout_marginBottom="0dp">
+
+        <EditText
+            android:id="@+id/selection_name"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginTop="20dp"
+            android:background="@color/white"
+            android:hint="@string/hint_friend"
+            android:lines="1"
+            android:paddingEnd="60dp"
+            android:paddingRight="60dp"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@+id/selection_chat_btn"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/selection_chat_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="60dp"
+            android:layout_marginRight="60dp"
+            android:background="@drawable/bg_btn_blue_round_12p"
+            android:clickable="true"
+            android:gravity="center"
+            android:onClick="onClickChat"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:text="ADD"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatCheckBox
+            android:id="@+id/offline_msg_check"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="40dp"
+            android:layout_marginLeft="40dp"
+            android:layout_marginTop="20dp"
+            android:text="@string/hint_enable_offline_message"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:visibility="invisible"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/selection_name" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/ry_friends"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="20dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/offline_msg_check" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/ry_channel"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="20dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/offline_msg_check" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/ry_messages"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:layout_above="@+id/mode_radio_group"
+        android:layout_below="@+id/tv_username"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginLeft="0dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="0dp" />
 
     <RadioGroup
         android:id="@+id/mode_radio_group"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
+        android:gravity="center"
+        android:layout_marginStart="0dp"
+        android:layout_marginLeft="0dp"
+        android:layout_marginEnd="0dp"
+        android:layout_marginRight="0dp"
         android:background="#1681FC"
         android:orientation="horizontal"
-        android:paddingLeft="120dp"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp">
+        android:paddingTop="12dp"
+        android:paddingBottom="12dp">
 
         <RadioButton
-            android:id="@+id/peer_radio_button"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
-            android:background="@drawable/selector_single_btn"
+            android:id="@+id/selection_friends"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/selector_person_btn"
             android:button="@null"
             android:clickable="true"
-            android:padding="15dp" />
+            android:padding="20dp"
+            android:focusable="true" />
 
         <RadioButton
-            android:id="@+id/selection_tab_channel"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
+            android:id="@+id/selection_channel"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_marginLeft="60dp"
-            android:background="@drawable/selector_channel_btn"
+            android:layout_marginStart="60dp"
+            android:background="@drawable/selector_group_btn"
             android:button="@null"
-            android:clickable="true"
-            android:padding="15dp" />
+            android:padding="20dp" />
+
+        <RadioButton
+            android:id="@+id/selection_messages"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="60dp"
+            android:layout_marginStart="60dp"
+            android:background="@drawable/selector_message_btn"
+            android:button="@null"
+            android:padding="20dp" />
 
     </RadioGroup>
 

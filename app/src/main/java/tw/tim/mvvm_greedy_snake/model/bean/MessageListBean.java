@@ -16,7 +16,7 @@ public class MessageListBean {
     }
 
     /**
-     * Create message list bean from offline messages
+     * Create message list bean from offline messages  查離線訊息 帶入ID 取得離線訊息
      *
      * @param account     peer user id to find offline messages from
      * @param chatManager chat manager that managers offline message pool
@@ -48,4 +48,5 @@ public class MessageListBean {
     public void setMessageBeanList(List<MessageBean> messageBeanList) {
         this.messageBeanList = messageBeanList;
     }
+
 }

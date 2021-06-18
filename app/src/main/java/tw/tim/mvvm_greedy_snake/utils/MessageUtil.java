@@ -41,10 +41,19 @@ public class MessageUtil {
         messageListBeanList.clear();
     }
 
+    // 抓完會移除訊息
     public static MessageListBean getExistMessageListBean(String accountOther) {
         int ret = existMessageListBean(accountOther);
         if (ret > -1) {
             return messageListBeanList.remove(ret);
+        }
+        return null;
+    }
+
+    public static MessageListBean getTestMessageListBean(String accountOther) {
+        int ret = existMessageListBean(accountOther);
+        if (ret > -1) {
+            return messageListBeanList.get(ret);
         }
         return null;
     }
@@ -84,4 +93,5 @@ public class MessageUtil {
             messageListBeanList.add(bean);
         }
     }
+
 }

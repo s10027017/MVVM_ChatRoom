@@ -42,6 +42,7 @@ import tw.tim.mvvm_greedy_snake.model.bean.MessageBean;
 import tw.tim.mvvm_greedy_snake.model.bean.MessageListBean;
 import tw.tim.mvvm_greedy_snake.rtmtutorial.AGApplication;
 import tw.tim.mvvm_greedy_snake.rtmtutorial.ChatManager;
+import tw.tim.mvvm_greedy_snake.rtmtutorial.RtmMessagePool;
 import tw.tim.mvvm_greedy_snake.utils.ImageUtil;
 import tw.tim.mvvm_greedy_snake.utils.MessageUtil;
 import tw.tim.mvvm_greedy_snake.view.adapter.MessageAdapter;
@@ -67,6 +68,8 @@ public class MessageActivity extends Activity {
     private RtmClientListener mClientListener;
     private RtmChannel mRtmChannel;
 
+//    private Map<String, List<RtmMessage>> Messages;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,28 +83,35 @@ public class MessageActivity extends Activity {
         mClientListener = new MyRtmClientListener();
         mChatManager.registerListener(mClientListener);
 
+//        Messages = mChatManager.getAllMessages();
+
         Intent intent = getIntent();
         mIsPeerToPeerMode = intent.getBooleanExtra(MessageUtil.INTENT_EXTRA_IS_PEER_MODE, true);
         mUserId = intent.getStringExtra(MessageUtil.INTENT_EXTRA_USER_ID);
         String targetName = intent.getStringExtra(MessageUtil.INTENT_EXTRA_TARGET_NAME);
 
         mTitleTextView = findViewById(R.id.message_title);
+        // 私聊
         if (mIsPeerToPeerMode) {
             mPeerId = targetName;
             mTitleTextView.setText(mPeerId);
 
-            // load history chat records
+            // load history chat records  讀取歷史訊息 帶入對方名字   第一次先寫入入 第二次進來才有資料
             MessageListBean messageListBean = MessageUtil.getExistMessageListBean(mPeerId);
             if (messageListBean != null) {
                 mMessageBeanList.addAll(messageListBean.getMessageBeanList());
+                Log.e("MessageActivity_messageListBean",messageListBean.getMessageBeanList().toString());
             }
 
-            // load offline messages since last chat with this peer.
+            // load offline messages since last chat with this peer.  讀取加載後要清除   第一次進來  messageListBean -> null
             // Then clear cached offline messages from message pool
-            // since they are already consumed.
+            // since they are already consumed.  帶入ID到ListBean
             MessageListBean offlineMessageBean = new MessageListBean(mPeerId, mChatManager);
             mMessageBeanList.addAll(offlineMessageBean.getMessageBeanList());
+            Log.e("MessageActivity_mMessageBeanList",mMessageBeanList.toString());
+            // [tw.tim.mvvm_greedy_snake.model.bean.MessageBean@6863f40, tw.tim.mvvm_greedy_snake.model.bean.MessageBean@9ee9e79]
             mChatManager.removeAllOfflineMessages(mPeerId);
+        // 群聊
         } else {
             mChannelName = targetName;
             mChannelMemberCount = 1;
@@ -227,12 +237,15 @@ public class MessageActivity extends Activity {
 
     /**
      * API CALL: send message to peer
+     * 私聊傳訊息 帶對方名字、訊息     離線訊息待處理 mChatManager.getSendMessageOptions()
      */
     private void sendPeerMessage(final RtmMessage message) {
         mRtmClient.sendMessageToPeer(mPeerId, message, mChatManager.getSendMessageOptions(), new ResultCallback<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
                 // do nothing
+                mChatManager.insertOnlineMessage(message, mPeerId, true);
+//                mMessagePool.insertOfflineMessage(message, mPeerId);
             }
 
             @Override
@@ -259,6 +272,7 @@ public class MessageActivity extends Activity {
 
     /**
      * API CALL: create and join channel
+     *  群聊  創建頻道 並 加入頻道
      */
     private void createAndJoinChannel() {
         // step 1: create a channel instance
@@ -292,6 +306,7 @@ public class MessageActivity extends Activity {
 
     /**
      * API CALL: get channel member list
+     *  取得頻道人數
      */
     private void getChannelMemberList() {
         mRtmChannel.getMembers(new ResultCallback<List<RtmChannelMember>>() {
@@ -368,16 +383,24 @@ public class MessageActivity extends Activity {
             });
         }
 
+        // 再聊天室裡 接收到訊息的處理
         @Override
         public void onMessageReceived(final RtmMessage message, final String peerId) {
             runOnUiThread(() -> {
+                // 自己
                 if (peerId.equals(mPeerId)) {
                     MessageBean messageBean = new MessageBean(peerId, message, false);
                     messageBean.setBackground(getMessageColor(peerId));
                     mMessageBeanList.add(messageBean);
                     mMessageAdapter.notifyItemRangeChanged(mMessageBeanList.size(), 1);
+                    // 畫面移到訊息
                     mRecyclerView.scrollToPosition(mMessageBeanList.size() - 1);
+
+                    Log.e("onMessageReceived_message",message.toString());
+                    Log.e("onMessageReceived_peerId",peerId);
+                    Log.e("onMessageReceived_mMessageBeanList",mMessageBeanList.toString());
                 } else {
+                    // 對方
                     MessageUtil.addMessageBean(peerId, message);
                 }
             });
@@ -441,6 +464,7 @@ public class MessageActivity extends Activity {
         @Override
         public void onMessageReceived(final RtmMessage message, final RtmChannelMember fromMember) {
             runOnUiThread(() -> {
+                Log.e("Channel_onMessageReceived_message",message.toString());
                 String account = fromMember.getUserId();
                 Log.i(TAG, "onMessageReceived account = " + account + " msg = " + message);
                 MessageBean messageBean = new MessageBean(account, message, false);
@@ -504,4 +528,5 @@ public class MessageActivity extends Activity {
     private void showToast(final String text) {
         runOnUiThread(() -> Toast.makeText(MessageActivity.this, text, Toast.LENGTH_SHORT).show());
     }
+
 }
