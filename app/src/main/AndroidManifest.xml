@@ -17,7 +17,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name="tw.tim.mvvm_greedy_snake.view.activity.IndexActivity">
+        <activity
+            android:name="tw.tim.mvvm_greedy_snake.view.activity.IndexActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

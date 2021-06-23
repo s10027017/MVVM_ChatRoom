@@ -141,7 +141,7 @@
                     android:layout_weight="8"
                     android:gravity="center"
                     android:hint="@string/password"
-                    android:inputType="textPersonName"
+                    android:inputType="textPassword"
                     android:textSize="18sp"
                     android:textStyle="bold" />
 
@@ -169,7 +169,7 @@
                     android:layout_weight="9"
                     android:gravity="center"
                     android:hint="@string/confirm_password"
-                    android:inputType="textPersonName"
+                    android:inputType="textPassword"
                     android:textSize="18sp"
                     android:textStyle="bold" />
 
