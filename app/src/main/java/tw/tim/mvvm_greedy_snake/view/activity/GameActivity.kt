@@ -98,7 +98,7 @@ class GameActivity : AppCompatActivity() {
         // 自訂的Textview 改Title 但會因為左邊圖案顯示而跑版 要再做額外判斷
         val titleColor = resources.getColor(R.color.white)
         tv_toolbar.setTextColor(titleColor)
-        tv_toolbar.text = getString(R.string.app_name)
+        tv_toolbar.text = getString(R.string.greedy_snake_game)
 
         // 讓toolbar在最上層 也可在Layout上直接調位置
 //        toolbar.bringToFront()
@@ -139,7 +139,7 @@ class GameActivity : AppCompatActivity() {
         viewModel.insertLiveData.observe(this, {
             Log.e("it.body()", it.body().toString())
             if (it.body()?.State == true) {
-                Toast.makeText(this, getString(R.string.record_success), Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.record_insert_success), Toast.LENGTH_SHORT).show()
             }
 
         })

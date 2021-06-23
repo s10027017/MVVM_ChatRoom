@@ -123,7 +123,7 @@ class RankActivity : AppCompatActivity() {
                 try {
                     handler.postDelayed(this, 1000)
                     val dateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")
-                    val event_date: Date = dateFormat.parse("2021-06-14T12:00:00")
+                    val event_date: Date = dateFormat.parse("2021-06-30T12:00:00")
 
                     val current_date = Date()
                     if (!current_date.after(event_date)) {

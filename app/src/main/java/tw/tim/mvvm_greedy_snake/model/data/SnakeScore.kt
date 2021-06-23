@@ -19,6 +19,15 @@ data class SnakeScore(
     @SerializedName("Score")
     var Score: Int = 0,
 
+    @SerializedName("Account")
+    var Account: String = "",
+
+    @SerializedName("Nickname")
+    var Nickname: String = "",
+
+    @SerializedName("Email")
+    var Email: String = "",
+
 ) {
 
 //    fun getState():Boolean = State

@@ -32,4 +32,20 @@ interface SnakeScoreApi {
     ): Call<List<SnakeScore>>
 
 
+    @Multipart
+    @POST("/api/snake_signup_api.php")
+    fun signUpInsert(
+            @Part("account") account: String,
+            @Part("nickname") nickname: String,
+            @Part("email") email: String,
+            @Part("password") password: String,
+    ): Call<SnakeScore>
+
+    @Multipart
+    @POST("/api/snake_login_api.php")
+    fun logIn(
+            @Part("account") account: String,
+            @Part("password") password: String,
+    ): Call<List<SnakeScore>>
+
 }

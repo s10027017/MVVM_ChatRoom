@@ -26,6 +26,7 @@ import kotlinx.android.synthetic.main.activity_index.*
 import kotlinx.android.synthetic.main.dialog_chat_room_login.view.*
 import kotlinx.android.synthetic.main.dialog_login.view.*
 import kotlinx.android.synthetic.main.dialog_logout.view.*
+import kotlinx.android.synthetic.main.dialog_signup.view.*
 import tw.tim.mvvm_greedy_snake.R
 import tw.tim.mvvm_greedy_snake.rtmtutorial.AGApplication
 import tw.tim.mvvm_greedy_snake.rtmtutorial.ChatManager
@@ -44,6 +45,8 @@ class IndexActivity : AppCompatActivity() {
     private var mGoogleSignInClient: GoogleSignInClient? = null
     private val RC_SIGN_IN = 9001
     private val TAG = "Tim"
+    private lateinit var signUpalertDialog: AlertDialog
+    private lateinit var logInalertDialog: AlertDialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,6 +55,7 @@ class IndexActivity : AppCompatActivity() {
         viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
 
         initButtons()
+        initUniObserve()
         checkName()
         initFCM()
         googleLogin()
@@ -60,6 +64,7 @@ class IndexActivity : AppCompatActivity() {
 
     // FCM 推播實做
     private fun initFCM() {
+        // 初始化
         Firebase.messaging.isAutoInitEnabled = true
 
         FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
@@ -95,7 +100,6 @@ class IndexActivity : AppCompatActivity() {
         // Build a GoogleSignInClient with the options specified by gso.
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso)
 
-
     }
 
     private fun googleSignIn(){
@@ -111,8 +115,12 @@ class IndexActivity : AppCompatActivity() {
         // the GoogleSignInAccount will be non-null.
         // 取得上次登入的狀態
         val account = GoogleSignIn.getLastSignedInAccount(this)
-        updateUI(account)
+        if(account != null){
+            updateUI(account)
+        }
+
         //--END on_start_sign_in--
+        Log.e("onStart: ", "onStart: ")
     }
 
     // 用戶GoogleSignInAccount後，您可以在活動的onActivityResult方法中為用戶獲取GoogleSignInAccount對象。
@@ -151,7 +159,9 @@ class IndexActivity : AppCompatActivity() {
 //            String g_GivenName=account.getGivenName(); //Firstname
 //            String g_FamilyName=account.getFamilyName(); //Last name
 
+            // 中文名不能進聊天室
             index_name.text = account.displayName
+//            index_name.text = account.email
             checkName()
 
             //-------改變圖像--------------
@@ -184,6 +194,29 @@ class IndexActivity : AppCompatActivity() {
         }
     }
 
+    private fun initUniObserve() {
+        viewModel.signUpLiveData.observe(this, {
+            Log.e("it.body()", it.body().toString())
+            if (it.body()?.State == true) {
+                Toast.makeText(this, it.body()!!.Message, Toast.LENGTH_SHORT).show()
+                signUpalertDialog.dismiss()
+            }
+        })
+
+        viewModel.logInLiveData.observe(this, {
+            Log.e("logInData", it.toString())
+            Log.e("logInDataNickname", it.get(0).Nickname)
+            if (it.get(0).Nickname.equals("")) {
+                Toast.makeText(this, getString(R.string.login_success), Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(this, getString(R.string.login_failure), Toast.LENGTH_SHORT).show()
+                logInalertDialog.dismiss()
+                index_name.text = it.get(0).Nickname
+                checkName()
+            }
+        })
+    }
+
     private fun signOut() {
         mGoogleSignInClient!!.signOut() //登出
             .addOnCompleteListener(this) {
@@ -198,45 +231,88 @@ class IndexActivity : AppCompatActivity() {
     private fun initButtons() {
         // 註冊按鈕
         btn_signup.setOnClickListener {
-
-        }
-        // 登入按鈕
-        btn_signin.setOnClickListener {
             // 自定義AlertDialog  也可以專寫一個class 繼承自定義AlertDialog 改寫然後處理他
-            val alertDialog: AlertDialog = AlertDialog.Builder(this).create()
+            signUpalertDialog = AlertDialog.Builder(this).create()
             //取得自訂的版面。
             val inflater = LayoutInflater.from(this)
-            val v: View = inflater.inflate(R.layout.dialog_login, null)
+            val v: View = inflater.inflate(R.layout.dialog_signup, null)
             // 設置view
-            alertDialog.setView(v)
+            signUpalertDialog.setView(v)
 
-            v.dialog_enter.setOnClickListener {
-                val name = v.dialog_et_name.text.toString()
-                if(name.equals("")){
-                    Toast.makeText(
-                        this,
-                        getString(R.string.name_cannot_be_empty),
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }else{
-                    alertDialog.dismiss()
-                }
-                index_name_title.text = "Hi "
-                index_name.text = name
+            // 確認
+            v.dialog_signup_enter.setOnClickListener {
 
-                Toast.makeText(this, "你已成功登入帳號!", Toast.LENGTH_SHORT).show()
+                val account = v.dialog_et_signup_account.text.trim().toString()
+                val nickname = v.dialog_et_signup_nickname.text.trim().toString()
+                val email = v.dialog_et_signup_email.text.trim().toString()
+                val password = v.dialog_et_signup_password.text.trim().toString()
+                val confirm_password  = v.dialog_et_signup_confirm_password.text.trim().toString()
 
-                checkName()
+                viewModel.signUpInsert(account, nickname, email, password)
+
+            }
+            // 取消
+            v.dialog_signup_cancel.setOnClickListener {
+                signUpalertDialog.dismiss()
             }
 
             // 點擊範圍外無反應
-            alertDialog.setCancelable(false)
+            signUpalertDialog.setCancelable(false)
 
-            alertDialog.show()
+            signUpalertDialog.show()
 
             // AlertDialog 用有設定好圓角的xml 顯示會無法顯示
             // https://stackoverflow.com/questions/16861310/android-dialog-rounded-corners-and-transparency
-            alertDialog.window?.setBackgroundDrawableResource(R.color.transparent)
+            signUpalertDialog.window?.setBackgroundDrawableResource(R.color.transparent)
+        }
+        // 登入按鈕
+        btn_signin.setOnClickListener {
+            logInalertDialog = AlertDialog.Builder(this).create()
+            val inflater = LayoutInflater.from(this)
+            val v: View = inflater.inflate(R.layout.dialog_login, null)
+            logInalertDialog.setView(v)
+
+            v.dialog_login_enter.setOnClickListener {
+
+                val account = v.dialog_et_login_account.text.trim().toString()
+                val password = v.dialog_et_login_password.text.trim().toString()
+
+                viewModel.logIn(account, password)
+
+//                index_name.text = account
+//                checkName()
+//                logInalertDialog.dismiss()
+
+            }
+
+            v.dialog_login_cancel.setOnClickListener {
+                logInalertDialog.dismiss()
+            }
+
+//            v.dialog_enter.setOnClickListener {
+//                val name = v.dialog_et_name.text.toString()
+//                if(name.equals("")){
+//                    Toast.makeText(
+//                        this,
+//                        getString(R.string.name_cannot_be_empty),
+//                        Toast.LENGTH_SHORT
+//                    ).show()
+//                }else{
+//                    alertDialog.dismiss()
+//                }
+//                index_name_title.text = "Hi "
+//                index_name.text = name
+//
+//                Toast.makeText(this, "你已成功登入帳號!", Toast.LENGTH_SHORT).show()
+//
+//                checkName()
+//            }
+
+//            alertDialog.setCancelable(false)
+
+            logInalertDialog.show()
+
+            logInalertDialog.window?.setBackgroundDrawableResource(R.color.transparent)
         }
         // Google登入
         btn_google_signin.setOnClickListener {
@@ -274,14 +350,14 @@ class IndexActivity : AppCompatActivity() {
                             intent.putExtra(MessageUtil.INTENT_EXTRA_USER_ID, name)
                             startActivity(intent)
                             alertDialog.dismiss()
-                            Toast.makeText(this@IndexActivity, "聊天室登入成功", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(this@IndexActivity, getString(R.string.chatroom_login_success), Toast.LENGTH_SHORT).show()
                             Log.e("Login Success: ", p0.toString())
                         }
                     }
 
                     override fun onFailure(p0: ErrorInfo?) {
                         runOnUiThread {
-                            Toast.makeText(this@IndexActivity, "聊天室登入失敗", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(this@IndexActivity, getString(R.string.chatroom_login_failure), Toast.LENGTH_SHORT).show()
                             Log.e("Login Failure: ", p0.toString())
                         }
                     }
@@ -310,7 +386,7 @@ class IndexActivity : AppCompatActivity() {
                 alertDialog.dismiss()
                 index_name.text = ""
                 signOut()
-                Toast.makeText(this, "你已成功登出帳號!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.logout_success), Toast.LENGTH_SHORT).show()
                 checkName()
             }
             v.dialog_logout_cancel.setOnClickListener {
@@ -333,7 +409,7 @@ class IndexActivity : AppCompatActivity() {
             btn_greedy_snake_game.visibility = View.GONE
             btn_greedy_snake_rank.visibility = View.GONE
             btn_chat_room.visibility = View.GONE
-            index_name_title.text = "Hello! "
+            index_name_title.text = getString(R.string.hello_visitor)
         }else{
             btn_signout.visibility = View.VISIBLE
             btn_signup.visibility = View.GONE
@@ -342,7 +418,7 @@ class IndexActivity : AppCompatActivity() {
             btn_greedy_snake_game.visibility = View.VISIBLE
             btn_greedy_snake_rank.visibility = View.VISIBLE
             btn_chat_room.visibility = View.VISIBLE
-            index_name_title.text = "Hi "
+            index_name_title.text = getString(R.string.hello)
         }
     }
 

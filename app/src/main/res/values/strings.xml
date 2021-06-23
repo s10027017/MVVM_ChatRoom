@@ -1,25 +1,7 @@
 <resources>
     <string name="app_name">MVVM Greedy Snake</string>
-    <string name="control_replay">REPLAY</string>
-    <string name="control_up">UP</string>
-    <string name="control_down">DOWN</string>
-    <string name="control_left">LEFT</string>
-    <string name="control_right">RIGHT</string>
-    <string name="score">SCORE:</string>
-    <string name="game_state">Game State</string>
-    <string name="game_over">Game OVER</string>
-    <string name="cancel">CANCEL</string>
-    <string name="save">SAVE</string>
-    <string name="rank">RANK</string>
-    <string name="total_score">Total Score:</string>
-    <string name="hint_name">Name</string>
-    <string name="enter_your_name">Please enter your name</string>
-    <string name="start_game">START GAME</string>
-    <string name="name_cannot_be_empty">Name cannot be empty</string>
-    <string name="record_success">Record success</string>
 
-    <string name="leaderboard">Leaderboard</string>
-
+    
     <string name="title_peer_msg">Peer to peer message</string>
     <string name="title_channel_message">Channel message</string>
     <string name="hint_friend">Friends name</string>
@@ -50,6 +32,52 @@
 
     <string name="channel_title" translatable="false">%s(%d)</string>
 
-    <string name="single_input">Single line input</string>\
+    <string name="single_input">Single line input</string>
+
+    <!--  IndexActivity  -->
+    <string name="signup">註冊</string>
+    <string name="account">帳號</string>
+    <string name="nickname">暱稱</string>
+    <string name="email">信箱</string>
+    <string name="password">密碼</string>
+    <string name="confirm_password">確認密碼</string>
+    <string name="login">登入</string>
+    <string name="google_login">Google登入</string>
+    <string name="login_success">登入成功!</string>
+    <string name="login_failure">登入失敗!</string>
+    <string name="chatroom_login_success">聊天室登入成功!</string>
+    <string name="chatroom_login_failure">聊天室登入成功!</string>
+    <string name="logout">登出</string>
+    <string name="logout_confirm">您確定要登出帳號嗎?</string>
+    <string name="logout_success">您已登出帳號!</string>
+    <string name="hello">您好!</string>
+    <string name="hello_visitor">訪客您好!</string>
+    <string name="greedy_snake_game">貪吃蛇遊戲</string>
+    <string name="greedy_snake_rank">貪吃蛇排行榜</string>
+    <string name="chat_room">聊天室</string>
+    <string name="confirm">確認</string>
+    <string name="cancel">取消</string>
+
+    <!--  GameActivity  -->
+    <string name="replay">再玩一次</string>
+    <string name="score">分數:</string>
+    <string name="control_up">上</string>
+    <string name="control_down">下</string>
+    <string name="control_left">左</string>
+    <string name="control_right">右</string>
+    <string name="game_state">遊戲狀態</string>
+    <string name="game_over">遊戲結束</string>
+    <string name="save">儲存紀錄</string>
+    <string name="total_score">總分:</string>
+    <string name="record_insert_success">分數寫入成功!</string>
+
+    <!--  RankActivity  -->
+    <string name="leaderboard">排行榜</string>
+    <string name="end_of_distance">距離結束</string>
+    <string name="day">天</string>
+    <string name="hour">時</string>
+    <string name="minute">分</string>
+    <string name="second">秒</string>
+    <string name="double_zero">00</string>
 
 </resources>

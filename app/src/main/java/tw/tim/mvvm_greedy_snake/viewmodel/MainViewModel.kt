@@ -1,11 +1,8 @@
 package tw.tim.mvvm_greedy_snake.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import io.agora.rtm.ErrorInfo
-import io.agora.rtm.ResultCallback
-import io.agora.rtm.RtmClient
+import retrofit2.Call
 import retrofit2.Response
 import tw.tim.mvvm_greedy_snake.model.data.SnakeScore
 import tw.tim.mvvm_greedy_snake.model.DataModel
@@ -37,6 +34,10 @@ class MainViewModel : ViewModel(), DataModel.OnDataReadyCallback{
     val insertLiveData: MutableLiveData<Response<SnakeScore>> = MutableLiveData()
     val getRankLiveData: MutableLiveData<List<SnakeScore>> = MutableLiveData()
     private var mDataModel: DataModel = DataModel()
+
+    val signUpLiveData: MutableLiveData<Response<SnakeScore>> = MutableLiveData()
+    val logInLiveData: MutableLiveData<List<SnakeScore>> = MutableLiveData()
+
 
 //    private var mChatManager: ChatManager = AGApplication.the().getChatManager()
 //    private var mRtmClient: RtmClient? = mChatManager.getRtmClient()
@@ -177,6 +178,14 @@ class MainViewModel : ViewModel(), DataModel.OnDataReadyCallback{
 //        })
     }
 
+    fun signUpInsert(account: String, nickname: String ,email: String, password: String){
+        mDataModel!!.signUpInsert(account, nickname, email, password, this)
+    }
+
+    fun logIn(account: String,  password: String){
+        mDataModel!!.logIn(account, password, this)
+    }
+
     override fun onListData(data: List<SnakeScore>?) {
 //        getRankLiveData.value = data
         getRankLiveData.postValue(data)
@@ -186,6 +195,14 @@ class MainViewModel : ViewModel(), DataModel.OnDataReadyCallback{
 
     override fun onData(data: Response<SnakeScore>?) {
         insertLiveData.postValue(data)
+    }
+
+    override fun onSignUpData(data: Response<SnakeScore>?) {
+        signUpLiveData.postValue(data)
+    }
+
+    override fun onLogInListData(data: List<SnakeScore>?) {
+        logInLiveData.postValue(data)
     }
 
 }

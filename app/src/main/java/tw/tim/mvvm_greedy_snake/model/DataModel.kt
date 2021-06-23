@@ -46,9 +46,45 @@ class DataModel {
         })
     }
 
+    fun signUpInsert(account: String, nickname: String, email: String, password: String, callback: OnDataReadyCallback) {
+        // {"state":true, "message":"分數寫入成功!!"}   不能有List<>
+        mSnakeScoreService!!.signUpInsert(account, nickname, email, password).enqueue(object : Callback<SnakeScore> {
+            override fun onFailure(call: Call<SnakeScore>?, t: Throwable?) {
+                Log.e("DataModel Insert Error", t.toString())
+            }
+
+            override fun onResponse(call: Call<SnakeScore>, response: Response<SnakeScore>) {
+                callback.onSignUpData(response)
+                Log.e("insert Response", response.toString())
+            }
+
+        })
+    }
+
+    fun logIn(account: String, password: String, callback: OnDataReadyCallback) {
+        // [SnakeScore(state=false, message=, ID=1, Name=tim, Score=10), SnakeScore(state=false, message=, ID=3, Name=weiting, Score=20)]
+        // 要用List []  除非規則不一樣 不然要改寫自定義規則
+        mSnakeScoreService!!.logIn(account, password).enqueue(object : Callback<List<SnakeScore>> {
+            override fun onFailure(call: Call<List<SnakeScore>>?, t: Throwable?) {
+//                callback.onLogInListData(call)
+                Log.e("logIn Error", t.toString())
+                Log.e("logIn Error", call.toString())
+            }
+
+            override fun onResponse(call: Call<List<SnakeScore>>?, response: Response<List<SnakeScore>>?) {
+//                callback.onDataReady(response!!.body()!!.getItems())
+                callback.onLogInListData(response?.body())
+                Log.e("logIn Response", response.toString())
+            }
+        })
+    }
+
     interface OnDataReadyCallback {
         fun onListData(data: List<SnakeScore>?)
         fun onData(data: Response<SnakeScore>?)
+
+        fun onSignUpData(data: Response<SnakeScore>?)
+        fun onLogInListData(data: List<SnakeScore>?)
     }
 
 }
