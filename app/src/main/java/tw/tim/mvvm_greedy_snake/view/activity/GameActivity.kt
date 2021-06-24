@@ -37,6 +37,7 @@ import tw.tim.mvvm_greedy_snake.viewmodel.MainViewModel
 class GameActivity : AppCompatActivity() {
 
     private lateinit var viewModel: MainViewModel
+    var totalScore :String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -132,7 +133,8 @@ class GameActivity : AppCompatActivity() {
 
         // 更新遊戲分數
         viewModel.scoreData.observe(this, {
-            score.text = it.toString()
+            totalScore = it.toString()
+            score.text = totalScore
         })
 
         // 寫入分數
@@ -177,20 +179,23 @@ class GameActivity : AppCompatActivity() {
                 alertDialog.setView(v)
 
                 // 一定要透過View 抓取AlertDialog上的元件 才能執行動作
-                v.score.text = getString(R.string.total_score) + viewModel.total_score
+                v.score.text = getString(R.string.total_score) + totalScore
                 v.dialog_start.setOnClickListener {
                     viewModel.start()
                     alertDialog.dismiss()
+                    v.dialog_save.isEnabled = true
                 }
 
                 // 取消
                 v.dialog_cancel.setOnClickListener {
                     alertDialog.dismiss()
+                    v.dialog_save.isEnabled = true
                 }
 
                 // 儲存紀錄
                 v.dialog_save.setOnClickListener {
                     viewModel.snakeScoreInsert()
+                    v.dialog_save.isEnabled = false
                 }
 
                 // 聊天室測試

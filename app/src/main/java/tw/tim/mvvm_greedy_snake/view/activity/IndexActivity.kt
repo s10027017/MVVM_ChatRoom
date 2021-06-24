@@ -1,5 +1,6 @@
 package tw.tim.mvvm_greedy_snake.view.activity
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -107,22 +108,6 @@ class IndexActivity : AppCompatActivity() {
         startActivityForResult(signInIntent, RC_SIGN_IN)
     }
 
-    // 在您的 Activity 的onStart方法中，檢查用戶是否已通過 Google 登錄您的應用。
-    override fun onStart() {
-        super.onStart()
-        // --START on_start_sign_in--
-        // Check for existing Google Sign In account, if the user is already signed in
-        // the GoogleSignInAccount will be non-null.
-        // 取得上次登入的狀態
-        val account = GoogleSignIn.getLastSignedInAccount(this)
-        if(account != null){
-            updateUI(account)
-        }
-
-        //--END on_start_sign_in--
-        Log.e("onStart: ", "onStart: ")
-    }
-
     // 用戶GoogleSignInAccount後，您可以在活動的onActivityResult方法中為用戶獲取GoogleSignInAccount對象。
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -151,6 +136,22 @@ class IndexActivity : AppCompatActivity() {
         }
     }
 
+    // 在您的 Activity 的onStart方法中，檢查用戶是否已通過 Google 登錄您的應用。
+    override fun onStart() {
+        super.onStart()
+        // --START on_start_sign_in--
+        // Check for existing Google Sign In account, if the user is already signed in
+        // the GoogleSignInAccount will be non-null.
+        // 取得上次登入的狀態
+        val account = GoogleSignIn.getLastSignedInAccount(this)
+        if(account != null){
+            updateUI(account)
+        }
+
+        //--END on_start_sign_in--
+        Log.e("onStart: ", "onStart")
+    }
+
     private fun updateUI(account: GoogleSignInAccount?) {
         if (account != null) {
 //            mStatusTextView.setText(getString(R.string.signed_in_fmt, account.getDisplayName()));
@@ -160,8 +161,14 @@ class IndexActivity : AppCompatActivity() {
 //            String g_FamilyName=account.getFamilyName(); //Last name
 
             // 中文名不能進聊天室
-            index_name.text = account.displayName
+//            index_name.text = account.displayName
 //            index_name.text = account.email
+
+            val loginName = getSharedPreferences("login", MODE_PRIVATE)
+            loginName.edit()
+                    .putString("nickname", account.displayName)
+                    .apply()
+
             checkName()
 
             //-------改變圖像--------------
@@ -186,8 +193,14 @@ class IndexActivity : AppCompatActivity() {
 //            findViewById<View>(R.id.sign_in_button).visibility = View.GONE
 //            findViewById<View>(R.id.sign_out_and_disconnect).visibility = View.VISIBLE
         } else {
-            index_name.text = ""
+
+            val loginName = getSharedPreferences("login", MODE_PRIVATE)
+            loginName.edit()
+                    .putString("nickname", "")
+                    .apply()
+
             checkName()
+
 //            mStatusTextView.setText(R.string.signed_out)
 //            findViewById<View>(R.id.sign_in_button).visibility = View.VISIBLE
 //            findViewById<View>(R.id.sign_out_and_disconnect).visibility = View.GONE
@@ -207,11 +220,17 @@ class IndexActivity : AppCompatActivity() {
             Log.e("logInData", it.toString())
             Log.e("logInDataNickname", it.get(0).Nickname)
             if (it.get(0).Nickname.equals("")) {
-                Toast.makeText(this, getString(R.string.login_success), Toast.LENGTH_SHORT).show()
-            } else {
                 Toast.makeText(this, getString(R.string.login_failure), Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(this, getString(R.string.login_success), Toast.LENGTH_SHORT).show()
                 logInalertDialog.dismiss()
-                index_name.text = it.get(0).Nickname
+
+                val loginName = getSharedPreferences("login", MODE_PRIVATE)
+                loginName.edit()
+                        .putString("nickname", it.get(0).Nickname)
+                        .apply()
+
+//                index_name.text = it.get(0).Nickname
                 checkName()
             }
         })
@@ -384,7 +403,13 @@ class IndexActivity : AppCompatActivity() {
             alertDialog.setView(v)
             v.dialog_logout.setOnClickListener {
                 alertDialog.dismiss()
-                index_name.text = ""
+//                index_name.text = ""
+
+                val loginName = getSharedPreferences("login", MODE_PRIVATE)
+                loginName.edit()
+                        .putString("nickname", "")
+                        .apply()
+
                 signOut()
                 Toast.makeText(this, getString(R.string.logout_success), Toast.LENGTH_SHORT).show()
                 checkName()
@@ -399,8 +424,11 @@ class IndexActivity : AppCompatActivity() {
     }
 
     private fun checkName(){
-        val name = index_name.text.toString()
-        Log.e("name", name)
+        val loginName = getSharedPreferences("login", Context.MODE_PRIVATE)
+        val name = loginName.getString("nickname", null)
+        index_name.text = name
+        Log.e("name", name.toString())
+
         if(name.equals("")){
             btn_signout.visibility = View.GONE
             btn_signup.visibility = View.VISIBLE
@@ -421,5 +449,7 @@ class IndexActivity : AppCompatActivity() {
             index_name_title.text = getString(R.string.hello)
         }
     }
+
+
 
 }

@@ -19,7 +19,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/signup"
-            android:textSize="24sp"
+            android:textSize="32sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -39,12 +39,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:weightSum="10"
-                android:orientation="horizontal">
+                android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/dialog_tv_account"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginLeft="12dp"
                     android:layout_weight="2"
                     android:text="@string/account"
                     android:textSize="18sp"
@@ -52,8 +54,11 @@
 
                 <EditText
                     android:id="@+id/dialog_et_signup_account"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:padding="8dp"
+                    android:background="@drawable/bg_blue_round_type"
                     android:layout_weight="8"
                     android:gravity="center"
                     android:hint="@string/account"
@@ -66,13 +71,16 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginTop="8dp"
                 android:weightSum="10"
-                android:orientation="horizontal">
+                android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/dialog_tv_nickname"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginLeft="12dp"
                     android:layout_weight="2"
                     android:text="@string/nickname"
                     android:textSize="18sp"
@@ -80,8 +88,11 @@
 
                 <EditText
                     android:id="@+id/dialog_et_signup_nickname"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:padding="8dp"
+                    android:background="@drawable/bg_blue_round_type"
                     android:layout_weight="8"
                     android:gravity="center"
                     android:hint="@string/nickname"
@@ -94,13 +105,16 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginTop="8dp"
                 android:weightSum="10"
-                android:orientation="horizontal">
+                android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/dialog_tv_email"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginLeft="12dp"
                     android:layout_weight="2"
                     android:text="@string/email"
                     android:textSize="18sp"
@@ -108,8 +122,11 @@
 
                 <EditText
                     android:id="@+id/dialog_et_signup_email"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:padding="8dp"
+                    android:background="@drawable/bg_blue_round_type"
                     android:layout_weight="8"
                     android:gravity="center"
                     android:hint="@string/email"
@@ -122,13 +139,16 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginTop="8dp"
                 android:weightSum="10"
-                android:orientation="horizontal">
+                android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/dialog_tv_password"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginLeft="12dp"
                     android:layout_weight="2"
                     android:text="@string/password"
                     android:textSize="18sp"
@@ -136,8 +156,11 @@
 
                 <EditText
                     android:id="@+id/dialog_et_signup_password"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:padding="8dp"
+                    android:background="@drawable/bg_blue_round_type"
                     android:layout_weight="8"
                     android:gravity="center"
                     android:hint="@string/password"
@@ -150,13 +173,16 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginTop="8dp"
                 android:weightSum="10"
-                android:orientation="horizontal">
+                android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/dialog_tv_confirm_password"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginLeft="12dp"
                     android:layout_weight="1"
                     android:text="@string/confirm_password"
                     android:textSize="18sp"
@@ -164,8 +190,11 @@
 
                 <EditText
                     android:id="@+id/dialog_et_signup_confirm_password"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:padding="8dp"
+                    android:background="@drawable/bg_blue_round_type"
                     android:layout_weight="9"
                     android:gravity="center"
                     android:hint="@string/confirm_password"

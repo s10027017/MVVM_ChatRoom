@@ -46,7 +46,7 @@
     <string name="login_success">登入成功!</string>
     <string name="login_failure">登入失敗!</string>
     <string name="chatroom_login_success">聊天室登入成功!</string>
-    <string name="chatroom_login_failure">聊天室登入成功!</string>
+    <string name="chatroom_login_failure">聊天室登入失敗!</string>
     <string name="logout">登出</string>
     <string name="logout_confirm">您確定要登出帳號嗎?</string>
     <string name="logout_success">您已登出帳號!</string>
@@ -55,6 +55,8 @@
     <string name="greedy_snake_game">貪吃蛇遊戲</string>
     <string name="greedy_snake_rank">貪吃蛇排行榜</string>
     <string name="chat_room">聊天室</string>
+    <string name="chat_room_login_alertdialog_title">你確定要登入聊天室嗎?</string>
+    <string name="chat_room_logout_alertdialog_title">你確定要登出聊天室嗎?</string>
     <string name="confirm">確認</string>
     <string name="cancel">取消</string>
 
@@ -65,7 +67,6 @@
     <string name="control_down">下</string>
     <string name="control_left">左</string>
     <string name="control_right">右</string>
-    <string name="game_state">遊戲狀態</string>
     <string name="game_over">遊戲結束</string>
     <string name="save">儲存紀錄</string>
     <string name="total_score">總分:</string>
@@ -79,5 +80,18 @@
     <string name="minute">分</string>
     <string name="second">秒</string>
     <string name="double_zero">00</string>
+
+    <!--    ChatRoomActivity -->
+    <string name="friends_list">好友清單</string>
+    <string name="friends_name">好友名字</string>
+    <string name="add_friends">新增好友</string>
+    <string name="group">群組</string>
+    <string name="group_name">群組名字</string>
+    <string name="add_group">創建群組</string>
+    <string name="messages">訊息</string>
+
+    <!--    MessageActivity -->
+    <string name="input_messages">請輸入一些訊息</string>
+    <string name="send_messages">傳送</string>
 
 </resources>

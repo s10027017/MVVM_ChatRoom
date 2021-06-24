@@ -19,28 +19,12 @@
             android:id="@+id/textView1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Are you sure login the chat room?"
+            android:text="@string/chat_room_login_alertdialog_title"
             android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-
-        <Button
-            android:id="@+id/dialog_chat_confirm"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
-            android:background="@drawable/bg_btn_blue_round_12p"
-            android:padding="12dp"
-            android:text="CONFIRM"
-            android:textColor="@color/white"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toStartOf="@+id/dialog_chat_cancel"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView1" />
 
         <Button
             android:id="@+id/dialog_chat_cancel"
@@ -49,13 +33,29 @@
             android:layout_marginTop="40dp"
             android:background="@drawable/bg_btn_blue_round_12p"
             android:padding="12dp"
-            android:text="CANCEL"
+            android:text="@string/cancel"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@+id/dialog_chat_confirm"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView1" />
+
+        <Button
+            android:id="@+id/dialog_chat_confirm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:background="@drawable/bg_btn_blue_round_12p"
+            android:padding="12dp"
+            android:text="@string/confirm"
             android:textColor="@color/white"
             android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/dialog_chat_confirm"
+            app:layout_constraintStart_toEndOf="@+id/dialog_chat_cancel"
             app:layout_constraintTop_toBottomOf="@+id/textView1" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

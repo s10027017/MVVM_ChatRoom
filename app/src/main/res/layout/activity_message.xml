@@ -36,7 +36,7 @@
         android:textStyle="bold"
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
-        android:text="@string/str_send"
+        android:text="@string/send_messages"
         android:textColor="@color/white" />
 
     <ImageView
@@ -60,7 +60,7 @@
         android:layout_margin="20dp"
         android:layout_toLeftOf="@+id/selection_chat_btn"
         android:background="@color/white"
-        android:hint="@string/single_input"
+        android:hint="@string/input_messages"
         android:textSize="18sp"
         android:textStyle="bold"
         android:lines="1"

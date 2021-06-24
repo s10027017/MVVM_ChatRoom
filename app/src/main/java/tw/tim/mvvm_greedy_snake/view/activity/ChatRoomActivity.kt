@@ -206,9 +206,9 @@ class ChatRoomActivity : AppCompatActivity() {
                 R.id.selection_friends -> {
                     // 一開始為私聊狀態
                     mIsPeerToPeerMode = true
-                    tv_toolbar.text = "Friends"
-                    selection_chat_btn.text = "Add"
-                    selection_name.hint = getString(R.string.hint_friend)
+                    tv_toolbar.text = getString(R.string.friends_list)
+                    selection_chat_btn.text = getString(R.string.add_friends)
+                    selection_name.hint = getString(R.string.friends_name)
 
                     cy_chat_room.visibility = View.VISIBLE
                     ry_friends.visibility = View.VISIBLE
@@ -218,9 +218,9 @@ class ChatRoomActivity : AppCompatActivity() {
                 // 點選群聊頁面
                 R.id.selection_channel -> {
                     mIsPeerToPeerMode = false
-                    tv_toolbar.text = "Channel"
-                    selection_chat_btn.text = "Create"
-                    selection_name.hint = getString(R.string.hint_channel)
+                    tv_toolbar.text = getString(R.string.group)
+                    selection_chat_btn.text = getString(R.string.add_group)
+                    selection_name.hint = getString(R.string.group_name)
 
                     cy_chat_room.visibility = View.VISIBLE
                     ry_friends.visibility = View.GONE
@@ -229,7 +229,7 @@ class ChatRoomActivity : AppCompatActivity() {
                 }
                 // 點選訊息頁面
                 R.id.selection_messages -> {
-                    tv_toolbar.text = "Messages"
+                    tv_toolbar.text = getString(R.string.messages)
                     cy_chat_room.visibility = View.GONE
                     ry_messages.visibility = View.VISIBLE
 
